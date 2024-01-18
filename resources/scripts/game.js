@@ -9,6 +9,10 @@ var timeoutCenterCards;
 var timeoutRestart;
 var timeoutSmoothCenter;
 var timeoutStrictSmooth;
+var timeoutBotAttack;
+var timeoutdealnewcards;
+var timeoutRestartRound;
+var timeoutverify;
 var targetScore = 11;
 var selectedCard = null;
 var boteatedcards=[];
@@ -410,10 +414,9 @@ function RestartRound() {
     startrestround();
 }
 
-function botAttack() {
+function BotAttack() {
     var eatedcardsthisround = [];
     if (deck.bot.cards.length > 0) {
-        //setTimeout(function () {
             audioPlayer.Play('placed');
             var cardToPlace = deck.bot.cards[0];
             var canEat = false;
@@ -440,7 +443,6 @@ function botAttack() {
 
             // Update the display of the bot's eaten cards
             //arrangeBotEatedCardsToLeft();
-        //}, 500); // 1-second delay
     } else {
         playerTurn = true;
     }
@@ -518,7 +520,21 @@ function findCombination(
   
     return null;
 }
-  
+  /*
+function findCombination(targetValue, availableCards) {
+    let highestCard = null;
+
+    availableCards.forEach(card => {
+        if (card.force === targetValue) {
+            if (highestCard === null || card.force > highestCard.force) {
+                highestCard = card;
+            }
+        }
+    });
+    console.log("Target value ", targetValue ," eated ",highestCard)
+    return highestCard;
+}
+*/
 //Manipulate Cards------------------------------>
   
 function removeCardElement(cardId) {

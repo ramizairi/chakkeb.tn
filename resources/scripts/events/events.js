@@ -63,20 +63,27 @@ window.onmouseup = function () {
       playerlasteat = true;
       //ArrangePlayerEatedCards("player");
       playerTurn = false;
-      botAttack();
+      timeoutBotAttack = setTimeout(() => {
+        BotAttack();
+    }, 1000);
     }
     });
 
     if (!canEat) {
       placeCardOnTable(draggedCard);
       playerTurn = false;
-      botAttack();
+      timeoutBotAttack = setTimeout(() => {
+        BotAttack();
+    }, 1000);
     }
     
     ArrangeCards(deck.player.cards, true);
     ArrangeTableCards(deck.table.cards);
-    dealNewCardsIfNeeded();
+    timeoutdealnewcards = setTimeout(() => {
+      dealNewCardsIfNeeded();
+   }, 1000);
 
+   timeoutverify = setTimeout(() => {
     if(deck.player.cards.length === 0 && deck.bot.cards.length === 0) {
       if(playerlasteat) {
         for(var i = 0 ; i < deck.table.cards.length ; i++) {
@@ -91,9 +98,10 @@ window.onmouseup = function () {
       }
       deck.table.cards = [];
       CalculateScore(playereatedcards, boteatedcards);
-    }
+    } }, 1400);
   }
   
+
 };
 //----------------
 
