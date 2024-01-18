@@ -12,6 +12,7 @@ var timeoutStrictSmooth;
 var timeoutBotAttack;
 var timeoutdealnewcards;
 var timeoutRestartRound;
+var timeoutshowwinnerscore;
 var timeoutverify;
 var targetScore = 11;
 var selectedCard = null;

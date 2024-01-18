@@ -28,7 +28,8 @@ function clearAllTimeouts() {
         timeoutShuffle, timeoutTrumpCard, timeoutInitCards, 
         timeoutShowCards, timeoutHideCard, timeoutCenterCards,
         timeoutRestart, timeoutSmoothCenter, timeoutStrictSmooth, timeoutBotAttack,
-        timeoutdealnewcards, timeoutRestartRound, timeoutverify
+        timeoutdealnewcards, timeoutRestartRound, timeoutverify,
+        timeoutshowwinnerscore
     ];
 
     // Clear each timeout

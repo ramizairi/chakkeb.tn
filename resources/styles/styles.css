@@ -325,7 +325,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0,0,0,0.8);
 }
 
 .popup-content {
@@ -362,4 +362,71 @@ body {
   background-color: white;
   padding: 20px;
   z-index: 1000;
+}
+
+
+/*Score pop up---------------------*/
+
+.s-popup {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+}
+
+.s-popup-content {
+  position: relative;
+  width: 446px; /* Width of the image */
+  height: 576px; /* Height of the image */
+  margin: 50px auto;
+  background: url('../images/SCORE.png') no-repeat center center; /* Path to your image */
+  background-size: contain;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 30px;
+  color: red;
+  cursor: pointer;
+}
+
+.score-display {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.score-item {
+  position: absolute;
+  color: white;
+  font-size: 35px;
+  font-family: "e-Ukraine-MakeOut";
+}
+
+.player-haya { top: 33%; left: 20%; color: greenyellow;}
+.player-bermila { top: 42.5%; left: 20%; color: greenyellow;}
+.player-carta { top: 52%; left: 20%; color: greenyellow;}
+.player-dineri { top: 62%; left: 20%; color: greenyellow;}
+.player-chkeyb { top: 72%; left: 20%; color: greenyellow;}
+.player-total { top: 86.5%; left: 20%; color: greenyellow;}
+
+.bot-haya { top: 33%; left: 78%; color: rgb(255, 183, 183);}
+.bot-bermila { top: 42.5%; left: 78%; color: rgb(255, 183, 183); }
+.bot-carta { top: 52%; left: 78%; color: rgb(255, 183, 183); }
+.bot-dineri { top: 62%; left: 78%; color: rgb(255, 183, 183); }
+.bot-chkeyb { top: 72%; left: 78%; color: rgb(255, 183, 183); }
+.bot-total { top: 86.5%; left: 78%; color: rgb(255, 183, 183); }
+
+
+#torh { 
+  top: 8%; 
+  left: 47%;
+  font-size: 50px;
+  color: aqua; 
 }

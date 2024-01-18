@@ -1,3 +1,9 @@
+var carta = false;
+var bermila = 0;
+var pbermila = 0;
+var haya = false;
+var ehaya = 0;
+var dineri = 0;
 var playerscore = 0;
 var botscore = 0;
 var playerTurn = true;
@@ -187,10 +193,6 @@ function removeCardElement(cardId) {
 
 //----------------------------------------------------------
 function CalculateScore(playereatedcards, boteatedcards) {
-    var carta = false;
-    var bermila = 0;
-    var haya = false;
-    var dineri = 0;
     // carta
     if (playereatedcards.length > boteatedcards.length) {
       carta = true;
@@ -207,7 +209,10 @@ function CalculateScore(playereatedcards, boteatedcards) {
         bermila = bermila+1;
       }
     }
-    if (bermila > 4) playerscore = playerscore+1;
+    if (bermila > 4) {
+        playerscore = playerscore+1;
+        pbermila = 1;
+    }
     else if (bermila < 4) botscore = botscore+1;
     else if (bermila === 4) console.log("Bermila beji")
     // 7aya
@@ -215,6 +220,7 @@ function CalculateScore(playereatedcards, boteatedcards) {
       if(playereatedcards[i].force === 7) {
         if(playereatedcards[i].suit.name === "diamond") {
           haya = true;
+          ehaya = 1;
         }
       }
     }
@@ -232,7 +238,10 @@ function CalculateScore(playereatedcards, boteatedcards) {
     if(playerscore >= targetScore || botscore >= targetScore) {
         console.log(playerscore >= targetScore ? "Player wins!" : "Bot wins!");
         DisplayWinner(playerscore >= targetScore ? 'player' : 'bot');
+        showScorePopup();
     } else {
+        updateScores();
+        showScorePopup();
         timeoutRestartRound = setTimeout(() => {
         starnextround();
         }, 2500);
@@ -242,6 +251,54 @@ function CalculateScore(playereatedcards, boteatedcards) {
         console.log("Bot Score = ", botscore) // Function to restart the round
     }
   }
+
+//-------------------------------
+
+// script.js
+
+function showScorePopup() {
+    document.getElementById("popup-score").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popup-score").style.display = "none";
+    playereatedcards = [];
+    boteatedcards = [];
+    carta = false;
+    bermila = 0;
+    pbermila = 0
+    haya = false;
+    ehaya = 0;
+    dineri = 0;
+}
+
+// Function to update scores
+function updateScores() {
+
+    // Update Round
+    document.getElementById("torh").textContent = round;
+
+    // Update player scores
+    document.getElementById("p-haya").textContent = ehaya;
+    document.getElementById("p-bermila").textContent = pbermila;
+    document.getElementById("p-carta").textContent = playereatedcards.length;
+    document.getElementById("p-dineri").textContent = dineri;
+    //document.getElementById("p-chkeyb").textContent = chkeyb;
+
+    // Update bot scores
+    document.getElementById("b-haya").textContent = 1 - ehaya;
+    document.getElementById("b-bermila").textContent = 1 - pbermila;
+    document.getElementById("b-carta").textContent = boteatedcards.length;
+    document.getElementById("b-dineri").textContent = 10 - dineri;
+    //document.getElementById("b-chkeyb").textContent = chkeyb;
+
+    // Update totals
+    document.getElementById("playerscore").textContent = playerscore;
+    document.getElementById("botscore").textContent = botscore;
+}
+
+
+//------------------------------
  function starnextround() {
     Resize();
     GuiInit();
