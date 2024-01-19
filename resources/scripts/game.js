@@ -227,25 +227,13 @@ function ArrangeTableCards(Cards) {
 
 // Tekel les cartes ythatou ala jnab
 function ArrangePlayerEatedCards(playerType) {
-    let eatedCards = (playerType === "bot") ? boteatedcards : playereatedcards;
-
-    console.log(`Arranging ${playerType} eaten cards:`, eatedCards);
-
-    eatedCards.forEach((card, index) => {
-        var cardElement = document.getElementById(("card".concat(i)));
-        console.log("card id : ", card.id, "Card element", cardElement)
-        if (cardElement) {
-            // Apply styles or transformations to the card
-            cardElement.style.position = "absolute";
-            cardElement.style.zIndex = "1000"; // Ensure the card is visible
-            // You can adjust these positions as per your UI layout
-            cardElement.style.bottom = (playerType === "bot" ? "20px" : "20px");
-            cardElement.style.right = `${20 * index}px`;
-            cardElement.style.transform = "scale(0.5)"; // Example: Scaling down the card
-        } else {
-            console.error(`Card element not found for card ID ${card.id}`);
-        }
-    });
+    for (var i = 0; i < playereatedcards.length; i++) {
+        var cardItem_1 = document.getElementById("card".concat(i));
+        cardItem_1.style.transform = "translate(560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
+        cardItem_1.style.animationDelay = '';
+        cardItem_1.style.animationName = '';
+        // cardItem.style.transition = '0.4s ease-in-out';
+    }
 }
 
 
@@ -417,6 +405,7 @@ function RestartRound() {
 
 function BotAttack() {
     var eatedcardsthisround = [];
+    console.log("bot turn");
     if (deck.bot.cards.length > 0) {
             audioPlayer.Play('placed');
             var cardToPlace = deck.bot.cards[0];
@@ -425,8 +414,9 @@ function BotAttack() {
             deck.table.cards.forEach((targetCard) => {
                 if (canEatCard(cardToPlace, targetCard)) {
                     eatCard(cardToPlace, targetCard);
+
                     eatedcardsthisround.push(cardToPlace, targetCard);
-                    console.log("eated cards round",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
+                    console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
                     canEat = true;
                     boteatedcards.push(cardToPlace, targetCard);
                     playerlasteat = false;
@@ -440,13 +430,12 @@ function BotAttack() {
             deck.bot.RemoveCard(cardToPlace);
             ArrangeCards(deck.bot.cards, false);
             ArrangeTableCards(deck.table.cards);
-            playerTurn = true;
+            
 
             // Update the display of the bot's eaten cards
             //arrangeBotEatedCardsToLeft();
-    } else {
-        playerTurn = true;
     }
+    playerTurn = true;
 }
 
 
@@ -465,23 +454,27 @@ function eatCard(draggedCard, fromPlayer) {
                 hideCard(card);
             }
         });
-  
+        
         // Remove the played card from player's or bot's hand
         if (fromPlayer) {
             removeCard(draggedCard, deck.player.cards);
             removeCardElement(draggedCard.id);
             ArrangeCards(deck.player.cards, true);
+            console.log("Player eaten cards : ", playereatedcards)
         } else {
             removeCard(draggedCard, deck.bot.cards);
+            console.log("Bot eaten cards : ", playereatedcards)
         }
     } else {
         // If no match, place the card on the table
         placeCardOnTable(draggedCard);
     }   
-  
+    
+    
     ArrangeTableCards(deck.table.cards);
 }
-  
+//------------------------------
+
 function findCombination(
     targetValue,
     availableCards,
@@ -611,36 +604,3 @@ function dealCardsToPlayer(player) {
 }
 
 //-----------------------------------------
-
-//------------
-//Score pop up
-function ScorePopup() {
-    // Créer le conteneur du pop-up
-    const popup = document.createElement("div");
-    popup.id = "popup";
-    popup.style.display = "none";
-
-    // Ajouter du contenu au pop-up
-    const popupContent = document.createElement("div");
-    popupContent.textContent = "Ceci est un pop-up!";
-    popup.appendChild(popupContent);
-
-    // Bouton de fermeture
-    const closeButton = document.createElement("button");
-    closeButton.textContent = "Fermer";
-    closeButton.onclick = function() {
-        popup.style.display = "none";
-    };
-    popup.appendChild(closeButton);
-
-    // Ajouter le pop-up au body
-    document.body.appendChild(popup);
-}
-
-// Afficher le pop-up
-function showPopup() {
-    const popup = document.getElementById("popup");
-    if (popup) {
-        popup.style.display = "visible";
-    }
-}

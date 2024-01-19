@@ -41,11 +41,12 @@ window.onmousedown = function (event) {
 };
 
 window.onmouseup = function () {
+  var eatedthisround = [];
   var draggings = document.getElementsByClassName("dragging");
   
   if (draggings.length > 0 && playerTurn === true) {
     audioPlayer.Play('placed');
-    console.log("player move");
+    console.log("player turn");
     var draggedElement = draggings[0];
     var draggedCardId = parseInt(draggedElement.id.replace("card", ""));
     var draggedCard = deck.player.cards.find((c) => c.id === draggedCardId);
@@ -59,7 +60,8 @@ window.onmouseup = function () {
       eatCard(draggedCard, targetCard);
       canEat = true;
       playereatedcards.push(draggedCard, targetCard);
-      // console.log("Eated : ", playereatedcards);
+      eatedthisround.push(draggedCard, targetCard);
+      console.log("Player Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedthisround);
       playerlasteat = true;
       //ArrangePlayerEatedCards("player");
       playerTurn = false;
@@ -84,25 +86,32 @@ window.onmouseup = function () {
    }, 1000);
 
    timeoutverify = setTimeout(() => {
-    if(deck.player.cards.length === 0 && deck.bot.cards.length === 0) {
-      if(playerlasteat) {
-        for(var i = 0 ; i < deck.table.cards.length ; i++) {
-          playereatedcards.push(deck.table.cards[i]);
-          removeCardElement(deck.table.cards[i].id);
-        }
-      } else {
-        for(var i = 0 ; i < deck.table.cards.length ; i++) {
-          boteatedcards.push(deck.table.cards[i]);
-          removeCardElement(deck.table.cards[i].id);
-        }
-      }
-      deck.table.cards = [];
-      CalculateScore(playereatedcards, boteatedcards);
-    } }, 1400);
+    verifyGameState();
+ }, 1400);
   }
   
 
 };
+function verifyGameState() {
+  if(deck.player.cards.length === 0 && deck.bot.cards.length === 0) {
+    if(playerlasteat) {
+      for(var i = 0 ; i < deck.table.cards.length ; i++) {
+        playereatedcards.push(deck.table.cards[i]);
+        removeCardElement(deck.table.cards[i].id);
+        console.log("Player last eat : ", deck.table.cards[i])
+      }
+    } else {
+      for(var i = 0 ; i < deck.table.cards.length ; i++) {
+        boteatedcards.push(deck.table.cards[i]);
+        removeCardElement(deck.table.cards[i].id);
+        console.log("bot last eat : ", deck.table.cards[i])
+
+      }
+    }
+    deck.table.cards = [];
+    CalculateScore(playereatedcards, boteatedcards);
+  }
+}
 //----------------
 
 window.onmousemove = function (event) {
