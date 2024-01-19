@@ -604,3 +604,10 @@ function dealCardsToPlayer(player) {
 }
 
 //-----------------------------------------
+
+function showPopup() {
+    const popup = document.getElementById("popup");
+    if (popup) {
+        popup.style.display = "visible";
+    }
+}
