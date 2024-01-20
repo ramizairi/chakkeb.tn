@@ -315,6 +315,11 @@ body {
   border: 2px solid red;
 }
 
+.highlighted {
+  border: 3px solid blue;
+  box-shadow: 0 0 10px blue;
+}
+
 /* Pop-Up Window Styling */
 .popup {
   display: none;
@@ -391,9 +396,15 @@ body {
   position: absolute;
   top: 10px;
   right: 25px;
-  font-size: 30px;
-  color: red;
+  font-size: 100px;
+  color: green;
   cursor: pointer;
+  margin-right: 50px;
+}
+.close-btn:hover {
+  color: red;
+  transform: scale(0.8);
+  transition: 0.2s ease;
 }
 
 .score-display {

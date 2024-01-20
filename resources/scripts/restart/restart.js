@@ -39,9 +39,11 @@ function clearAllTimeouts() {
 }
 
 function Restart() {
+
     playerTurn = true;
     playerscore = 0;
     botscore = 0;
+    round = 1;
     HideInfoBox();
 
     resetCardTransforms(deck.table.cards);
@@ -57,9 +59,11 @@ function Restart() {
 }
 
 function StrictRestart() {
+
     playerTurn = true;
     playerscore = 0;
     botscore = 0;
+    round = 1;
     HideInfoBox();
     clearCardsAndContainer();
     clearAllTimeouts();
@@ -70,10 +74,9 @@ function StrictSmoothRestart() {
     playerTurn = true;
     playerscore = 0;
     botscore = 0;
+    round = 1;
     HideInfoBox();
     clearAllTimeouts();
-    toggleActionButton(false);
-    toggleBotsDecision(false, '...');
     deck.CardsToDeck();
     audioPlayer.Play('sweep');
     console.log(deck.cards.length, deck);

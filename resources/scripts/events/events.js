@@ -43,7 +43,7 @@ window.onmousedown = function (event) {
 window.onmouseup = function () {
   var eatedthisround = [];
   var draggings = document.getElementsByClassName("dragging");
-  
+  UpdateInfoBox();
   if (draggings.length > 0 && playerTurn === true) {
     audioPlayer.Play('placed');
     console.log("player turn");
@@ -59,8 +59,9 @@ window.onmouseup = function () {
     if (canEatCard(draggedCard, targetCard)) {
       eatCard(draggedCard, targetCard);
       canEat = true;
-      playereatedcards.push(draggedCard, targetCard);
+      //playereatedcards.push(draggedCard, targetCard);
       eatedthisround.push(draggedCard, targetCard);
+      totalplayereatedcards.push(draggedCard, targetCard);
       console.log("Player Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedthisround);
       playerlasteat = true;
       //ArrangePlayerEatedCards("player");
@@ -74,6 +75,7 @@ window.onmouseup = function () {
     if (!canEat) {
       placeCardOnTable(draggedCard);
       playerTurn = false;
+      UpdateInfoBox();
       timeoutBotAttack = setTimeout(() => {
         BotAttack();
     }, 1000);
@@ -89,7 +91,7 @@ window.onmouseup = function () {
     verifyGameState();
  }, 1400);
   }
-  
+  UpdateInfoBox();
 
 };
 function verifyGameState() {

@@ -18,6 +18,7 @@ var targetScore = 11;
 var selectedCard = null;
 var boteatedcards=[];
 var playereatedcards=[];
+var totalplayereatedcards=[];
 var playerlasteat = false;
 var round = 1;
 var aboteatedcards=[];
@@ -49,7 +50,7 @@ function sortCards() {
 }
 function start() {
     openPopup(); 
-    console.log("Option selected:", targetScore);
+    //console.log("Option selected:", targetScore);
     deck = new Deck();
     document.addEventListener('contextmenu', function (event) { return event.preventDefault(); });
     //console.log(deck.cards);
@@ -255,6 +256,7 @@ function ArrangePlayerEatedCards(playerType) {
             cardItem.style.cursor = 'default';
         }
     }
+
 //------------------------------------------------
 // Function to open the popup
 function openPopup() {
@@ -273,7 +275,7 @@ function startGame() {
 }
 function setOption(value) {
     // Your code to handle the option
-    console.log("Option selected:", value);
+    //console.log("Option selected:", value);
 }
 //--------------------------------------------------
 function startrestround() {
@@ -406,6 +408,7 @@ function RestartRound() {
 function BotAttack() {
     var eatedcardsthisround = [];
     console.log("bot turn");
+    UpdateInfoBox();
     if (deck.bot.cards.length > 0) {
             audioPlayer.Play('placed');
             var cardToPlace = deck.bot.cards[0];
@@ -416,7 +419,7 @@ function BotAttack() {
                     eatCard(cardToPlace, targetCard);
 
                     eatedcardsthisround.push(cardToPlace, targetCard);
-                    console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
+                    //console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
                     canEat = true;
                     boteatedcards.push(cardToPlace, targetCard);
                     playerlasteat = false;
@@ -435,7 +438,9 @@ function BotAttack() {
             // Update the display of the bot's eaten cards
             //arrangeBotEatedCardsToLeft();
     }
+    
     playerTurn = true;
+    UpdateInfoBox();
 }
 
 
@@ -449,8 +454,18 @@ function eatCard(draggedCard, fromPlayer) {
             // Add to player's eaten cards if fromPlayer is true
             if (fromPlayer) {
                 playereatedcards.push(card);
+                if(deck.table.cards === 0) {
+                    audioPlayer.Play('chkobba');
+                    pchkeyb = pchkeyb + 1;
+                    playerscore = playerscore + 1;
+                }
             } else {
                 boteatedcards.push(card);
+                if(deck.table.cards === 0) {
+                    audioPlayer.Play('chkobba');
+                    bchkeyb = bchkeyb + 1;
+                    botscore = botscore + 1;
+                }
                 hideCard(card);
             }
         });
@@ -460,10 +475,10 @@ function eatCard(draggedCard, fromPlayer) {
             removeCard(draggedCard, deck.player.cards);
             removeCardElement(draggedCard.id);
             ArrangeCards(deck.player.cards, true);
-            console.log("Player eaten cards : ", playereatedcards)
+            //console.log("Player eaten cards : ", playereatedcards)
         } else {
             removeCard(draggedCard, deck.bot.cards);
-            console.log("Bot eaten cards : ", playereatedcards)
+            //console.log("Bot eaten cards : ", playereatedcards)
         }
     } else {
         // If no match, place the card on the table

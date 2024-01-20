@@ -4,6 +4,8 @@ var pbermila = 0;
 var haya = false;
 var ehaya = 0;
 var dineri = 0;
+var pchkeyb = 0;
+var bchkeyb = 0;
 var playerscore = 0;
 var botscore = 0;
 var playerTurn = true;
@@ -73,13 +75,12 @@ function GuiInit() {
     }
 }
 function GetDeckCardsInfo() {
-    if (deck.cards.length > 6) return "Mzelou " + deck.cards.length/6 +" Jariet" ;
-    else if(deck.cards.length = 6)  return "Mzelt Jaria";
-    else return "Ekher jaria !";
+    if (deck.cards.length > 6) return "" + deck.cards.length/6 +"  rounds left" ;
+    else return "Last Round !";
 }
 function turnwho() {
-    if(playerTurn) return "Enti Tal3eb , ";
-    else if(!playerTurn) return "L bot yal3eb , ";
+    if(playerTurn) return "It's your turn , ";
+    else if(!playerTurn) return "It's bot's turn now , ";
     return '';
 }
 function UpdateInfoBox() {
@@ -96,7 +97,7 @@ function DisplayWinner(player) {
     if (player === 'bot') {
         audioPlayer.Play('lose');
         var winner = document.createElement('div');
-        winner.textContent = '5SERT 😢';
+        winner.textContent = 'BOT WINS 😢';
         winner.id = 'winner';
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
@@ -104,7 +105,7 @@ function DisplayWinner(player) {
     else if (player === 'player') {
         audioPlayer.Play('win');
         var winner = document.createElement('div');
-        winner.textContent = 'MABROUK 😎';
+        winner.textContent = 'YOU WIN 😎';
         winner.id = 'winner';
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
@@ -112,7 +113,7 @@ function DisplayWinner(player) {
     else if (player === 'tie') {
         audioPlayer.Play('lose');
         var winner = document.createElement('div');
-        winner.textContent = 'TOR7 ✖️';
+        winner.textContent = 'TIE ✖️';
         winner.id = 'winner';
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
@@ -236,10 +237,12 @@ function CalculateScore(playereatedcards, boteatedcards) {
     else if (dineri < 5) botscore = botscore+1;
   
     if(playerscore >= targetScore || botscore >= targetScore) {
+        HideInfoBox();
         console.log(playerscore >= targetScore ? "Player wins!" : "Bot wins!");
         DisplayWinner(playerscore >= targetScore ? 'player' : 'bot');
         showScorePopup();
     } else {
+        HideInfoBox();
         updateScores();
         showScorePopup();
         timeoutRestartRound = setTimeout(() => {
