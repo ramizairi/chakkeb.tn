@@ -50,9 +50,9 @@ function GuiInit() {
         cardItem.addEventListener('click', function () {
             toggleCardSelection(card, cardItem);
         });
-    }); 
+    });
 
-// Assuming this happens after the table cards are created and added to the DOM
+    // Assuming this happens after the table cards are created and added to the DOM
     deck.table.cards.forEach(function (card) {
         var cardItem = document.getElementById("card" + card.id);
         cardItem.addEventListener('click', function () {
@@ -61,7 +61,7 @@ function GuiInit() {
     });
 
     for (var _i = 0, _a = deck.table.cards; _i < _a.length; _i++) {
-        (function() {
+        (function () {
             var tableCard = _a[_i];
             var tableCardItem = document.getElementById("card".concat(tableCard.id));
 
@@ -75,12 +75,12 @@ function GuiInit() {
     }
 }
 function GetDeckCardsInfo() {
-    if (deck.cards.length > 6) return "" + deck.cards.length/6 +"  rounds left" ;
+    if (deck.cards.length > 6) return "" + deck.cards.length / 6 + "  rounds left";
     else return "Last Round !";
 }
 function turnwho() {
-    if(playerTurn) return "It's your turn , ";
-    else if(!playerTurn) return "It's bot's turn now , ";
+    if (playerTurn) return "It's your turn , ";
+    else if (!playerTurn) return "It's bot's turn now , ";
     return '';
 }
 function UpdateInfoBox() {
@@ -196,44 +196,44 @@ function removeCardElement(cardId) {
 function CalculateScore(playereatedcards, boteatedcards) {
     // carta
     if (playereatedcards.length > boteatedcards.length) {
-      carta = true;
-      playerscore = playerscore+1;
+        carta = true;
+        playerscore = playerscore + 1;
     } else {
-      botscore = botscore+1;
+        botscore = botscore + 1;
     }
     // bermila
-    for( var i = 0 ; i < playereatedcards.length ; i++) {
-      if (playereatedcards[i].force === 7 || playereatedcards[i].force === 6) {
-        bermila = bermila+1
-      }
+    for (var i = 0; i < playereatedcards.length; i++) {
+        if (playereatedcards[i].force === 7 || playereatedcards[i].force === 6) {
+            bermila = bermila + 1
+        }
     }
     if (bermila > 4) {
-        playerscore = playerscore+1;
+        playerscore = playerscore + 1;
         pbermila = 1;
     }
-    else if (bermila < 4) botscore = botscore+1;
+    else if (bermila < 4) botscore = botscore + 1;
     else if (bermila === 4) console.log("Bermila beji")
     // 7aya
-    for( var i = 0 ; i < playereatedcards.length ; i++) {
-      if(playereatedcards[i].force === 7) {
-        if(playereatedcards[i].suit.name === "diamond") {
-          haya = true;
-          ehaya = 1;
+    for (var i = 0; i < playereatedcards.length; i++) {
+        if (playereatedcards[i].force === 7) {
+            if (playereatedcards[i].suit.name === "diamond") {
+                haya = true;
+                ehaya = 1;
+            }
         }
-      }
     }
-    if(haya) playerscore = playerscore+1;
-    else botscore = botscore+1;
+    if (haya) playerscore = playerscore + 1;
+    else botscore = botscore + 1;
     //dineri
-    for( var i = 0 ; i < playereatedcards.length ; i++) {
-      if(playereatedcards[i].suit.name === 'diamond') {
-        dineri = dineri+1;
-      }
+    for (var i = 0; i < playereatedcards.length; i++) {
+        if (playereatedcards[i].suit.name === 'diamond') {
+            dineri = dineri + 1;
+        }
     }
-    if(dineri > 5) playerscore = playerscore+1;
-    else if (dineri < 5) botscore = botscore+1;
-  
-    if(playerscore >= targetScore || botscore >= targetScore) {
+    if (dineri > 5) playerscore = playerscore + 1;
+    else if (dineri < 5) botscore = botscore + 1;
+
+    if (playerscore >= targetScore || botscore >= targetScore) {
         HideInfoBox();
         console.log(playerscore >= targetScore ? "Player wins!" : "Bot wins!");
         DisplayWinner(playerscore >= targetScore ? 'player' : 'bot');
@@ -243,14 +243,14 @@ function CalculateScore(playereatedcards, boteatedcards) {
         updateScores();
         showScorePopup();
         timeoutRestartRound = setTimeout(() => {
-        starnextround();
+            starnextround();
         }, 2500);
-        round = round+1;
+        round = round + 1;
         console.log("Round number = ", round);
         console.log("Player Score = ", playerscore);
         console.log("Bot Score = ", botscore) // Function to restart the round
     }
-  }
+}
 
 //-------------------------------
 
@@ -304,10 +304,10 @@ function updateScores() {
 
 
 //------------------------------
- function starnextround() {
+function starnextround() {
     Resize();
     GuiInit();
     showPopup();
     RestartRound();
 }
-  //----------------------------------------------------
+//----------------------------------------------------
