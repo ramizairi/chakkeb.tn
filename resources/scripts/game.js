@@ -224,7 +224,10 @@ function ArrangeTableCards(Cards) {
         // Increment the card counter
         cardNum++;
     }
+    document.getElementsByTagName("html")[0].style.cursor = "default";
+
 }
+//--------//-------------//----------------//-------//
 
 // Tekel les cartes ythatou ala jnab
 function ArrangePlayerEatedCards(playerType) {
@@ -529,23 +532,7 @@ function findCombination(
   
     return null;
 }
-  /*
-function findCombination(targetValue, availableCards) {
-    let highestCard = null;
 
-    availableCards.forEach(card => {
-        if (card.force === targetValue) {
-            if (highestCard === null || card.force > highestCard.force) {
-                highestCard = card;
-            }
-        }
-    });
-    console.log("Target value ", targetValue ," eated ",highestCard)
-    return highestCard;
-}
-*/
-//Manipulate Cards------------------------------>
-  
 function removeCardElement(cardId) {
     let cardElement = document.getElementById("card" + cardId);
     if (cardElement) {
@@ -605,8 +592,6 @@ function dealCardsToPlayer(player) {
   }
 
  function dealNewCardsIfNeeded() {
-    //setTimeout(function () {
-        // Check if both player and bot have no cards
         if (deck.player.cards.length === 0 && deck.bot.cards.length === 0) {
             // Deal new cards if the deck still has cards
             if (deck.cards.length > 0) {
@@ -615,14 +600,7 @@ function dealCardsToPlayer(player) {
                 UpdateInfoBox(); // Update game info display
             }
         }
-    //}, 600); // Delay to allow for UI/UX consistency
 }
 
 //-----------------------------------------
 
-function showPopup() {
-    const popup = document.getElementById("popup");
-    if (popup) {
-        popup.style.display = "visible";
-    }
-}

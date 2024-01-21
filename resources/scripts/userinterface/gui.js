@@ -203,11 +203,8 @@ function CalculateScore(playereatedcards, boteatedcards) {
     }
     // bermila
     for( var i = 0 ; i < playereatedcards.length ; i++) {
-      if (playereatedcards[i].force === 7) {
+      if (playereatedcards[i].force === 7 || playereatedcards[i].force === 6) {
         bermila = bermila+1
-      }
-      if (playereatedcards[i].force === 6) {
-        bermila = bermila+1;
       }
     }
     if (bermila > 4) {
@@ -257,10 +254,15 @@ function CalculateScore(playereatedcards, boteatedcards) {
 
 //-------------------------------
 
-// script.js
-
 function showScorePopup() {
     document.getElementById("popup-score").style.display = "block";
+}
+
+function showPopup() {
+    const popup = document.getElementById("popup");
+    if (popup) {
+        popup.style.display = "visible";
+    }
 }
 
 function closePopup() {
