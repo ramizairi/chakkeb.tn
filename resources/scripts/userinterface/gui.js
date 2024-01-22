@@ -80,27 +80,7 @@ function DisplayWinner(player) {
     }
 }
 
-//----------------------------------------------------------------------------------------
-/*
-function toggleCardSelection(card, cardItem) {
-    // Assuming 'selected' is a custom property you added to track selection
-    card.selected = !card.selected;
-    if (card.selected) {
-        cardItem.classList.add('selected'); // Highlight the card visually
-    } else {
-        cardItem.classList.remove('selected');
-    }
-}*/
-function toggleCardSelection(card, cardElement) {
-    card.selected = !card.selected;
-    if (card.selected) {
-      cardElement.classList.add('highlighted'); // This class should highlight the card in blue
-      updateSumSelectedCards();
-    } else {
-      cardElement.classList.remove('highlighted');
-      updateSumSelectedCards();
-    }
-  }
+
 
 function handleCardFromTable(tableCard, tableCardItem) {
     // Find the selected player card

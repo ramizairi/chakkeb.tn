@@ -18,7 +18,6 @@ var targetScore = 11;
 var selectedCard = null;
 var boteatedcards = [];
 var playereatedcards = [];
-var totalplayereatedcards = [];
 var playerlasteat = false;
 var round = 1;
 var aboteatedcards = [];
@@ -412,7 +411,7 @@ function RestartRound() {
 
 function BotAttack() {
     var eatedcardsthisround = [];
-    console.log("bot turn");
+    //console.log("bot turn");
     UpdateInfoBox();
     if (deck.bot.cards.length > 0) {
         audioPlayer.Play('placed');
@@ -458,7 +457,6 @@ function eatCard(draggedCard, fromPlayer) {
 
             // Add to player's eaten cards if fromPlayer is true
             if (fromPlayer) {
-                playereatedcards.push(card);
                 if (deck.table.cards === 0) {
                     audioPlayer.Play('chkobba');
                     pchkeyb = pchkeyb + 1;
@@ -480,10 +478,10 @@ function eatCard(draggedCard, fromPlayer) {
             removeCard(draggedCard, deck.player.cards);
             removeCardElement(draggedCard.id);
             ArrangeCards(deck.player.cards, true);
-            //console.log("Player eaten cards : ", playereatedcards)
+            console.log("Player eaten cards : ", playereatedcards)
         } else {
             removeCard(draggedCard, deck.bot.cards);
-            //console.log("Bot eaten cards : ", playereatedcards)
+            console.log("Bot eaten cards : ", playereatedcards)
         }
     } else {
         // If no match, place the card on the table

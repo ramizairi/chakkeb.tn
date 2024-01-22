@@ -44,7 +44,7 @@ function handlePlayerCardSelection(item) {
   document.getElementsByTagName("html")[0].style.cursor = "none";
   ArrangeCards(deck.player.cards.filter(x => x.id !== parseInt(item.id.slice(4))), true);
   selectedCard = deck.player.cards.find(x => x.id === parseInt(item.id.slice(4)));
-  console.log("Player Card selected:", selectedCard);
+  //console.log("Player Card selected:", selectedCard);
 }
 
 function handlePlayerCardDeselection(item) {
@@ -79,6 +79,15 @@ function handleTableCardSelection(item2) {
       }
     });
   }
+  if(sumtableselectedcard < 0) {
+    sumtableselectedcard = 0;
+    deck.table.cards.forEach((card) => {
+      var cardElement = document.getElementById("card" + card.id);
+      if (cardElement) {
+        resetTableCardSelection(cardElement);
+      }
+    });
+  }
 }
 
 function handleTableCardDeselection(item2) {
@@ -99,38 +108,50 @@ window.onmouseup = function () {
   var eatedthisround = [];
   var draggings = document.getElementsByClassName("dragging");
   UpdateInfoBox();
+
   if (draggings.length > 0 && playerTurn === true) {
     audioPlayer.Play('placed');
-    console.log("player turn");
+    //console.log("player turn");
+
     var draggedElement = draggings[0];
     var draggedCardId = parseInt(draggedElement.id.replace("card", ""));
     var draggedCard = deck.player.cards.find((c) => c.id === draggedCardId);
 
     draggedElement.classList.remove("dragging", "highlighted");
 
-    var canEat = false;
+    var canEat = checkIfCanEat(draggedCard);
 
-    deck.table.cards.forEach((targetCard) => {
-      if (canEatCard(draggedCard, targetCard)) {
-        eatCard(draggedCard, targetCard);
-        sumtableselectedcard = 0;
-        canEat = true;
-        //playereatedcards.push(draggedCard, targetCard);
-        eatedthisround.push(draggedCard, targetCard);
-        totalplayereatedcards.push(draggedCard, targetCard);
-        console.log("Player Eated cards round ", round, "jaria ", deck.cards.length / 6, eatedthisround);
-        playerlasteat = true;
-        //ArrangePlayerEatedCards("player");
-        playerTurn = false;
-        timeoutBotAttack = setTimeout(() => {
-          BotAttack();
-        }, 1000);
-      }
-    });
+    if (canEat) {
+      deck.table.cards.forEach((targetCard) => {
+        if (selectedTableCardIds.includes(targetCard.id)) {
+          eatCard(draggedCard, targetCard);
+          eatedthisround.push(draggedCard);
+          eatedthisround.push(targetCard);
+          playereatedcards.push(draggedCard, targetCard);
+          //onsole.log("Player Eated cards round ", round, "jaria ", deck.cards.length / 6, eatedthisround);
+          //console.log("Total player eated cards : ", playereatedcards)
+        }
+      });
 
-    if (!canEat) {
-      placeCardOnTable(draggedCard);
+      playerlasteat = true;
       playerTurn = false;
+      sumtableselectedcard = 0;
+      selectedTableCardIds = []; // Reset the list of selected card IDs
+
+      timeoutBotAttack = setTimeout(() => {
+        BotAttack();
+      }, 1000);
+    } else {
+      placeCardOnTable(draggedCard);
+      sumtableselectedcard = 0;
+      selectedTableCardIds = [];
+      playerTurn = false;
+      deck.table.cards.forEach((card) => {
+        var cardElement = document.getElementById("card" + card.id);
+        if (cardElement) {
+          resetTableCardSelection(cardElement);
+        }
+      });
       UpdateInfoBox();
       timeoutBotAttack = setTimeout(() => {
         BotAttack();
@@ -148,15 +169,21 @@ window.onmouseup = function () {
     }, 1400);
   }
   UpdateInfoBox();
-
 };
+
+function checkIfCanEat(draggedCard) {
+  // Check if the sum of selected table cards equals the value of the dragged card
+  return sumtableselectedcard === draggedCard.force;
+}
+
+//-----------------------------------------
 function verifyGameState() {
   if (deck.player.cards.length === 0 && deck.bot.cards.length === 0) {
     if (playerlasteat) {
       for (var i = 0; i < deck.table.cards.length; i++) {
-        playereatedcards.push(deck.table.cards[i]);
         removeCardElement(deck.table.cards[i].id);
         console.log("Player last eat : ", deck.table.cards[i])
+        playereatedcards.push(deck.table.cards[i])
       }
     } else {
       for (var i = 0; i < deck.table.cards.length; i++) {
@@ -166,6 +193,9 @@ function verifyGameState() {
 
       }
     }
+    console.log("Player Total Eated Cards -->", playereatedcards.length)
+    console.log("Bot Total Eated Cards -->", boteatedcards.length)
+
     deck.table.cards = [];
     CalculateScore(playereatedcards, boteatedcards);
   }
