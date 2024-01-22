@@ -314,14 +314,15 @@ body {
 
 .card.highlighted {
   border: 2px solid red;
+  box-shadow: 0 0 10px red;
 }
 
-.highlighted {
+.card.tablehighlighted {
   border: 3px solid blue;
-  box-shadow: 0 0 10px blue;
+  opacity: 0.6;
 }
 
-/* Pop-Up Window Styling */
+/* Start windows popup */
 .popup {
   display: none;
   position: fixed;
@@ -357,6 +358,8 @@ body {
 
 #start-game-btn:hover {
   background-color: #008407;
+  transform: scale(1.1);
+  transition: all .3s ease-in-out;
 }
 
 #popup {

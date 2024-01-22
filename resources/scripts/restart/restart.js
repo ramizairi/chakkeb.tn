@@ -25,7 +25,7 @@ function resetCardTransforms(cardsArray) {
 function clearAllTimeouts() {
     // List of timeouts to clear
     const timeouts = [
-        timeoutShuffle, timeoutTrumpCard, timeoutInitCards, 
+        timeoutShuffle, timeoutTrumpCard, timeoutInitCards,
         timeoutShowCards, timeoutHideCard, timeoutCenterCards,
         timeoutRestart, timeoutSmoothCenter, timeoutStrictSmooth, timeoutBotAttack,
         timeoutdealnewcards, timeoutRestartRound, timeoutverify,

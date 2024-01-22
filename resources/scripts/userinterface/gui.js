@@ -27,52 +27,12 @@ function GuiInit() {
     restartButton.id = 'btn-restart';
     var infoLabel = document.createElement('div');
     infoLabel.id = 'btn-info';
-    var actionButton = document.createElement('div');
-    actionButton.textContent = '...';
-    actionButton.id = 'btn-action';
-    actionButton.classList.add('button');
     var gui = document.getElementById('gui');
     gui === null || gui === void 0 ? void 0 : gui.appendChild(restartButton);
     gui === null || gui === void 0 ? void 0 : gui.appendChild(infoLabel);
-    gui === null || gui === void 0 ? void 0 : gui.appendChild(actionButton);
 
-    for (var _i = 0, _e = deck.player.cards; _i < _e.length; _i++) {
-        var card = _e[_i];
-        var cardItem = document.getElementById("card".concat(card.id));
 
-        // Add click event listener for player cards
-        cardItem.addEventListener('click', function () {
-            toggleCardSelection(card, cardItem);
-        });
-    }
-    deck.player.cards.forEach(function (card) {
-        var cardItem = document.getElementById("card" + card.id);
-        cardItem.addEventListener('click', function () {
-            toggleCardSelection(card, cardItem);
-        });
-    });
 
-    // Assuming this happens after the table cards are created and added to the DOM
-    deck.table.cards.forEach(function (card) {
-        var cardItem = document.getElementById("card" + card.id);
-        cardItem.addEventListener('click', function () {
-            handleCardFromTable(card, cardItem);
-        });
-    });
-
-    for (var _i = 0, _a = deck.table.cards; _i < _a.length; _i++) {
-        (function () {
-            var tableCard = _a[_i];
-            var tableCardItem = document.getElementById("card".concat(tableCard.id));
-
-            // Add direct logging in the event listener
-            tableCardItem.addEventListener('click', function (event) {
-                console.log('Click event triggered for card ID:', tableCard.id);
-                console.log('Card data:', tableCard);
-                handleCardFromTable(tableCard, tableCardItem);
-            });
-        })();
-    }
 }
 function GetDeckCardsInfo() {
     if (deck.cards.length > 6) return "" + deck.cards.length / 6 + "  rounds left";
@@ -119,37 +79,9 @@ function DisplayWinner(player) {
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
     }
 }
-// restart
-function toggleActionButton(makeVisible) {
-    var actionbtn = document.getElementById('btn-action');
-    if (actionbtn !== null && makeVisible) {
-        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.add('visible');
-    }
-    else {
-        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.remove('visible');
-        actionbtn.textContent = '...';
-    }
-}
 
-function toggleBotsDecision(makeVisible, context) {
-    var botAction = document.getElementById('bot-action');
-    var botActionDecision = document.getElementById('bot-action-decision');
-    if (botAction !== null && botActionDecision !== null) {
-        if (makeVisible && (context !== null && context !== undefined)) {
-            botActionDecision.textContent = context;
-            if (!botAction.classList.contains('visible')) {
-                audioPlayer.Play('alert');
-            }
-            botAction.classList.add('visible');
-        }
-        else {
-            botActionDecision.textContent = '...';
-            botAction.classList.remove('visible');
-        }
-    }
-}
 //----------------------------------------------------------------------------------------
-
+/*
 function toggleCardSelection(card, cardItem) {
     // Assuming 'selected' is a custom property you added to track selection
     card.selected = !card.selected;
@@ -158,7 +90,17 @@ function toggleCardSelection(card, cardItem) {
     } else {
         cardItem.classList.remove('selected');
     }
-}
+}*/
+function toggleCardSelection(card, cardElement) {
+    card.selected = !card.selected;
+    if (card.selected) {
+      cardElement.classList.add('highlighted'); // This class should highlight the card in blue
+      updateSumSelectedCards();
+    } else {
+      cardElement.classList.remove('highlighted');
+      updateSumSelectedCards();
+    }
+  }
 
 function handleCardFromTable(tableCard, tableCardItem) {
     // Find the selected player card
@@ -203,8 +145,11 @@ function CalculateScore(playereatedcards, boteatedcards) {
     }
     // bermila
     for (var i = 0; i < playereatedcards.length; i++) {
-        if (playereatedcards[i].force === 7 || playereatedcards[i].force === 6) {
-            bermila = bermila + 1
+        if (playereatedcards[i].force === 7) {
+            bermila = bermila + 1;
+        }
+        if(playereatedcards[i].force === 6) {
+            bermila = bermila + 1;
         }
     }
     if (bermila > 4) {
@@ -246,9 +191,9 @@ function CalculateScore(playereatedcards, boteatedcards) {
             starnextround();
         }, 2500);
         round = round + 1;
-        console.log("Round number = ", round);
-        console.log("Player Score = ", playerscore);
-        console.log("Bot Score = ", botscore) // Function to restart the round
+        //console.log("Round number = ", round);
+        //console.log("Player Score = ", playerscore);
+        //console.log("Bot Score = ", botscore) // Function to restart the round
     }
 }
 

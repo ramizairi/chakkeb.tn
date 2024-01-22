@@ -111,7 +111,7 @@ class Deck {
 
         ArrangeTableCards(this.table.cards);
     }
-
+// on start again
     CardsToDeck() {
         while (this.player.cards.length > 0) {
             const Card_1 = this.player.cards.pop();
@@ -125,7 +125,6 @@ class Deck {
         }
 
         while (this.table.cards.length > 0) {
-            
             const Card_3 = this.table.cards.pop();
             hideCard(Card_3);
             this.cards.push(Card_3);

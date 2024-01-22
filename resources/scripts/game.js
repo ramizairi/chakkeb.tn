@@ -16,12 +16,14 @@ var timeoutshowwinnerscore;
 var timeoutverify;
 var targetScore = 11;
 var selectedCard = null;
-var boteatedcards=[];
-var playereatedcards=[];
-var totalplayereatedcards=[];
+var boteatedcards = [];
+var playereatedcards = [];
+var totalplayereatedcards = [];
 var playerlasteat = false;
 var round = 1;
-var aboteatedcards=[];
+var aboteatedcards = [];
+let sumSelectedCards = 0;
+
 
 function showCard(card) {
     var cardItem = document.getElementById("card".concat(card.id));
@@ -49,7 +51,7 @@ function sortCards() {
         .sort(function (a, b) { return b.suit.type - a.suit.type || a.force - b.force; });
 }
 function start() {
-    openPopup(); 
+    openPopup();
     //console.log("Option selected:", targetScore);
     deck = new Deck();
     document.addEventListener('contextmenu', function (event) { return event.preventDefault(); });
@@ -69,17 +71,17 @@ function start() {
         cardItem.style.animationDelay = "0.".concat(i * randdelay < 10 ? "0".concat(Math.floor(i * randdelay)) : Math.floor(i * randdelay), "s");
         gameDeck === null || gameDeck === void 0 ? void 0 : gameDeck.appendChild(cardItem);
         cardItem.style.transform = "translateY(".concat(-40 + i / 3.5, "%)");
-    }   
+    }
     timeoutShuffle = setTimeout(function () {
         audioPlayer.Play('moving');
         // thot les reste carte ala jnab
-            for (var i = 0; i < deck.cards.length; i++) {
-                var cardItem_1 = document.getElementById("card".concat(i));
-                cardItem_1.style.transform = "translate(-560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
-                cardItem_1.style.animationDelay = '';
-                cardItem_1.style.animationName = '';
-                // cardItem.style.transition = '0.4s ease-in-out';
-            }
+        for (var i = 0; i < deck.cards.length; i++) {
+            var cardItem_1 = document.getElementById("card".concat(i));
+            cardItem_1.style.transform = "translate(-560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
+            cardItem_1.style.animationDelay = '';
+            cardItem_1.style.animationName = '';
+            // cardItem.style.transition = '0.4s ease-in-out';
+        }
         timeoutInitCards = setTimeout(function () {
             deck.InitPlayer();
             deck.InitTable();
@@ -116,12 +118,12 @@ function start() {
                     showCard(Card);
                 }
                 InitializeCards();
-                
-                
+
+
                 ArrangeCards(deck.player.cards, true);
                 ArrangeCards(deck.bot.cards, false);
                 ArrangeTableCards(deck.table.cards);
-                
+
                 UpdateInfoBox();
             }, 1200);
         }, 1400);
@@ -136,51 +138,51 @@ window.onload = function () {
 };
 window.onresize = function (event) {
     Resize();
-  };
+};
 //------------------------------------
 // just annimation mta3 tahbit les cartes lel table
 function InitializeCards() {
     // l wa9et eli l carte mte3k bch tahbet lel table
-        var _loop_3 = function (Card) {
-            var cardItem = document.getElementById("card".concat(Card.id));
-            cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(Card, cardItem); }, true);
-            cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(Card, cardItem); }, true);
-            cardItem.style.transition = "0.55s";
-        };
-        for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
-            var Card = _a[_i];
-            _loop_3(Card);
-        }
+    var _loop_3 = function (Card) {
+        var cardItem = document.getElementById("card".concat(Card.id));
+        cardItem.addEventListener('mouseenter', function (event) { return ScaleCard(Card, cardItem); }, true);
+        cardItem.addEventListener('mouseleave', function (event) { return NormalizeCard(Card, cardItem); }, true);
+        cardItem.style.transition = "0.55s";
+    };
+    for (var _i = 0, _a = deck.player.cards; _i < _a.length; _i++) {
+        var Card = _a[_i];
+        _loop_3(Card);
+    }
     // l wa9t eli l bot yhabet fih wre9
-        for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
-            var Card = _c[_b];
-            var cardItem = document.getElementById("card".concat(Card.id));
-            cardItem.style.transition = "0.55s";
-        }
+    for (var _b = 0, _c = deck.bot.cards; _b < _c.length; _b++) {
+        var Card = _c[_b];
+        var cardItem = document.getElementById("card".concat(Card.id));
+        cardItem.style.transition = "0.55s";
+    }
 }
 // tefret kafek
 function ArrangeCards(Cards, isPlayer) {
     var cardNum = 0;
     if (isPlayer) {
-      sortCards();
+        sortCards();
     }
     Cards.forEach(Card => {
-      if (Card) { // Check if Card is not undefined
-        var cardItem = document.getElementById("card".concat(Card.id));
-        if (cardItem) { // Check if cardItem is not null
-          var multiplier = 3 / Cards.length;
-          Card.position = new Position(
-            (-10 * (Cards.length - 1) + (cardNum * 20)) * (multiplier >= 1 ? 1 : multiplier / 0.8),
-            ((isPlayer ? 130 : -210) - (isPlayer ? 1 : -1) * (6 * (cardNum < (Cards.length / 2) ? (Cards.length / 2 - ((Cards.length - cardNum) / 2)) : (((Cards.length - cardNum) - 1) / 2)))),
-            (-5 * (Cards.length - 1) + (cardNum++ * 10)) * (multiplier >= 1 ? 1 : multiplier * 1.5)
-          );
-          cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(isPlayer ? Card.position.angle : -Card.position.angle, "deg)");
-          cardItem.style.zIndex = isPlayer ? cardNum.toString() : ((cardNum * -1) + 40).toString();
+        if (Card) { // Check if Card is not undefined
+            var cardItem = document.getElementById("card".concat(Card.id));
+            if (cardItem) { // Check if cardItem is not null
+                var multiplier = 3 / Cards.length;
+                Card.position = new Position(
+                    (-10 * (Cards.length - 1) + (cardNum * 20)) * (multiplier >= 1 ? 1 : multiplier / 0.8),
+                    ((isPlayer ? 130 : -210) - (isPlayer ? 1 : -1) * (6 * (cardNum < (Cards.length / 2) ? (Cards.length / 2 - ((Cards.length - cardNum) / 2)) : (((Cards.length - cardNum) - 1) / 2)))),
+                    (-5 * (Cards.length - 1) + (cardNum++ * 10)) * (multiplier >= 1 ? 1 : multiplier * 1.5)
+                );
+                cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(isPlayer ? Card.position.angle : -Card.position.angle, "deg)");
+                cardItem.style.zIndex = isPlayer ? cardNum.toString() : ((cardNum * -1) + 40).toString();
+            }
         }
-      }
     });
-  }
-  
+}
+
 function ArrangeTableCards(Cards) {
     var cardNum = 0;
     var numRows = 2; // Number of rows
@@ -192,7 +194,7 @@ function ArrangeTableCards(Cards) {
     var centerY = (10 - tableHeight) / 2;
     // Loop through each card in the array
     for (var _i = 0, Cards_1 = Cards; _i < Cards_1.length; _i++) {
-        
+
         var Card = Cards_1[_i];
         var cardItem = document.getElementById("card".concat(Card.id));
         showCard(Card);
@@ -212,12 +214,12 @@ function ArrangeTableCards(Cards) {
             0 // No rotation for parallel arrangement
         );
 
-        
+
         cardItem.style.width = cardWidth + "px";
         cardItem.style.height = cardHeight + "px";
         // Apply transformations to the card element
         cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
-    if (cardItem.classList.contains('taken')) {
+        if (cardItem.classList.contains('taken')) {
             // Add any additional styling for taken cards
             cardItem.style.opacity = '0.5';
         }
@@ -242,28 +244,28 @@ function ArrangePlayerEatedCards(playerType) {
 
 
 // fel hover mtaa l carte tthaz carte wahda mech lkol
-    function NormalizeCard(Card, cardItem) {
-        if (deck.player.cards.find(function (x) { return x.id === Card.id; })) {
-            cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
-        }
+function NormalizeCard(Card, cardItem) {
+    if (deck.player.cards.find(function (x) { return x.id === Card.id; })) {
+        cardItem.style.transform = "translate(".concat(Card.position.x, "%, ").concat(Card.position.y, "%) rotate(").concat(Card.position.angle, "deg)");
     }
+}
 // des effets fel drag and drop
-    function ScaleCard(Card, cardItem) {
-        if (!cardItem.classList.contains('dragging') && deck.player.cards.find(function (x) { return x.id === Card.id; })) {
-            audioPlayer.Play('hover');
-            cardItem.style.cursor = 'grab';
-            cardItem.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 70, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 35, "%) rotate(").concat(Card.position.angle, "deg)");
-            // console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
-        }
-        else {
-            cardItem.style.cursor = 'default';
-        }
+function ScaleCard(Card, cardItem) {
+    if (!cardItem.classList.contains('dragging') && deck.player.cards.find(function (x) { return x.id === Card.id; })) {
+        audioPlayer.Play('hover');
+        cardItem.style.cursor = 'grab';
+        cardItem.style.transform = "translate(".concat(Card.position.x - Math.cos((90 + Card.position.angle) * Math.PI / 180) * 70, "%, ").concat(Card.position.y - Math.sin((90 + Card.position.angle) * Math.PI / 180) * 35, "%) rotate(").concat(Card.position.angle, "deg)");
+        // console.log(Card.position, Card.position!.angle! * Math.PI / 180, Card.position?.angle);
     }
+    else {
+        cardItem.style.cursor = 'default';
+    }
+}
 
 //------------------------------------------------
 // Function to open the popup
 function openPopup() {
-    startGame(); 
+    startGame();
     document.getElementById("popup-window").style.display = "block";
 }
 
@@ -300,17 +302,17 @@ function startrestround() {
         cardItem.style.animationDelay = "0.".concat(i * randdelay < 10 ? "0".concat(Math.floor(i * randdelay)) : Math.floor(i * randdelay), "s");
         gameDeck === null || gameDeck === void 0 ? void 0 : gameDeck.appendChild(cardItem);
         cardItem.style.transform = "translateY(".concat(-40 + i / 3.5, "%)");
-    }   
+    }
     timeoutShuffle = setTimeout(function () {
         audioPlayer.Play('moving');
         // thot les reste carte ala jnab
-            for (var i = 0; i < deck.cards.length; i++) {
-                var cardItem_1 = document.getElementById("card".concat(i));
-                cardItem_1.style.transform = "translate(-560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
-                cardItem_1.style.animationDelay = '';
-                cardItem_1.style.animationName = '';
-                // cardItem.style.transition = '0.4s ease-in-out';
-            }
+        for (var i = 0; i < deck.cards.length; i++) {
+            var cardItem_1 = document.getElementById("card".concat(i));
+            cardItem_1.style.transform = "translate(-560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
+            cardItem_1.style.animationDelay = '';
+            cardItem_1.style.animationName = '';
+            // cardItem.style.transition = '0.4s ease-in-out';
+        }
         timeoutInitCards = setTimeout(function () {
             deck.InitPlayer();
             deck.InitTable();
@@ -347,12 +349,12 @@ function startrestround() {
                     showCard(Card);
                 }
                 InitializeCards();
-                
-                
+
+
                 ArrangeCards(deck.player.cards, true);
                 ArrangeCards(deck.bot.cards, false);
                 ArrangeTableCards(deck.table.cards);
-                
+
                 UpdateInfoBox();
             }, 1200);
         }, 1400);
@@ -413,35 +415,35 @@ function BotAttack() {
     console.log("bot turn");
     UpdateInfoBox();
     if (deck.bot.cards.length > 0) {
-            audioPlayer.Play('placed');
-            var cardToPlace = deck.bot.cards[0];
-            var canEat = false;
+        audioPlayer.Play('placed');
+        var cardToPlace = deck.bot.cards[0];
+        var canEat = false;
 
-            deck.table.cards.forEach((targetCard) => {
-                if (canEatCard(cardToPlace, targetCard)) {
-                    eatCard(cardToPlace, targetCard);
+        deck.table.cards.forEach((targetCard) => {
+            if (canEatCard(cardToPlace, targetCard)) {
+                eatCard(cardToPlace, targetCard);
 
-                    eatedcardsthisround.push(cardToPlace, targetCard);
-                    //console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
-                    canEat = true;
-                    boteatedcards.push(cardToPlace, targetCard);
-                    playerlasteat = false;
-                }
-            });
-
-            if (!canEat) {
-                placeCardOnTable(cardToPlace);
+                eatedcardsthisround.push(cardToPlace, targetCard);
+                //console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
+                canEat = true;
+                boteatedcards.push(cardToPlace, targetCard);
+                playerlasteat = false;
             }
+        });
 
-            deck.bot.RemoveCard(cardToPlace);
-            ArrangeCards(deck.bot.cards, false);
-            ArrangeTableCards(deck.table.cards);
-            
+        if (!canEat) {
+            placeCardOnTable(cardToPlace);
+        }
 
-            // Update the display of the bot's eaten cards
-            //arrangeBotEatedCardsToLeft();
+        deck.bot.RemoveCard(cardToPlace);
+        ArrangeCards(deck.bot.cards, false);
+        ArrangeTableCards(deck.table.cards);
+
+
+        // Update the display of the bot's eaten cards
+        //arrangeBotEatedCardsToLeft();
     }
-    
+
     playerTurn = true;
     UpdateInfoBox();
 }
@@ -453,18 +455,18 @@ function eatCard(draggedCard, fromPlayer) {
         combination.forEach((card) => {
             removeCard(card, deck.table.cards);
             removeCardElement(card.id);
-  
+
             // Add to player's eaten cards if fromPlayer is true
             if (fromPlayer) {
                 playereatedcards.push(card);
-                if(deck.table.cards === 0) {
+                if (deck.table.cards === 0) {
                     audioPlayer.Play('chkobba');
                     pchkeyb = pchkeyb + 1;
                     playerscore = playerscore + 1;
                 }
             } else {
                 boteatedcards.push(card);
-                if(deck.table.cards === 0) {
+                if (deck.table.cards === 0) {
                     audioPlayer.Play('chkobba');
                     bchkeyb = bchkeyb + 1;
                     botscore = botscore + 1;
@@ -472,7 +474,7 @@ function eatCard(draggedCard, fromPlayer) {
                 hideCard(card);
             }
         });
-        
+
         // Remove the played card from player's or bot's hand
         if (fromPlayer) {
             removeCard(draggedCard, deck.player.cards);
@@ -486,9 +488,9 @@ function eatCard(draggedCard, fromPlayer) {
     } else {
         // If no match, place the card on the table
         placeCardOnTable(draggedCard);
-    }   
-    
-    
+    }
+
+
     ArrangeTableCards(deck.table.cards);
 }
 //------------------------------
@@ -498,64 +500,64 @@ function findCombination(
     availableCards,
     currentCombo = [],
     startIndex = 0
-  ) {
+) {
     const currentSum = currentCombo.reduce((sum, card) => sum + card.force, 0);
-  
+
     if (currentSum === targetValue) {
-      return currentCombo;
+        return currentCombo;
     }
-  
+
     if (currentSum > targetValue || startIndex >= availableCards.length) {
-      return null;
+        return null;
     }
-  
+
     for (let i = startIndex; i < availableCards.length; i++) {
-      const includeCard = findCombination(
-        targetValue,
-        availableCards,
-        [...currentCombo, availableCards[i]],
-        i + 1
-      );
-      if (includeCard) {
-        return includeCard; 
-      }
-      const excludeCard = findCombination(
-        targetValue,
-        availableCards,
-        currentCombo,
-        i + 1
-      );
-      if (excludeCard) {
-        return excludeCard; 
-      }
+        const includeCard = findCombination(
+            targetValue,
+            availableCards,
+            [...currentCombo, availableCards[i]],
+            i + 1
+        );
+        if (includeCard) {
+            return includeCard;
+        }
+        const excludeCard = findCombination(
+            targetValue,
+            availableCards,
+            currentCombo,
+            i + 1
+        );
+        if (excludeCard) {
+            return excludeCard;
+        }
     }
-  
+
     return null;
 }
 
 function removeCardElement(cardId) {
     let cardElement = document.getElementById("card" + cardId);
     if (cardElement) {
-      cardElement.remove();
+        cardElement.remove();
     }
 }
-  
+
 function removeCard(card, fromArray) {
     var index = fromArray.findIndex((c) => c.id === card.id);
     if (index !== -1) {
-      fromArray.splice(index, 1);
+        fromArray.splice(index, 1);
     }
 }
-  
+
 function placeCardOnTable(card) {
     deck.table.AddCard(card);
     removeCard(card, deck.player.cards);
 }
-  
+
 function canEatCard(draggedCard, targetCard) {
     return draggedCard.force === targetCard.force;
 }
-  
+
 function getSelectedCard() {
     return selectedCard;
 }
@@ -566,41 +568,47 @@ function getSelectedCard() {
 /// A3tih 3 wra9 jdod kif youfa elfaw lawra9
 function dealCardsToPlayer(player) {
     for (var i = 0; i < 3; i++) {
-      if (deck.cards.length > 0) {
-        var newCard = deck.cards.shift();
-        if (newCard) {
-          player.cards.push(newCard);
-          showCard(newCard);
-        }
-      }
-    }
-    ArrangeCards(player.cards, true);
-  }
-  
-  function dealCardsToBot(bot) {
-    if (deck.cards.length > 0) {
-      for (var i = 0; i < 3; i++) {
         if (deck.cards.length > 0) {
-          var newCard = deck.cards.shift();
-          if (newCard) {  // Check if newCard is not undefined
-            bot.cards.push(newCard);
-          }
-        }
-      }
-      ArrangeCards(bot.cards, false);
-    }
-  }
-
- function dealNewCardsIfNeeded() {
-        if (deck.player.cards.length === 0 && deck.bot.cards.length === 0) {
-            // Deal new cards if the deck still has cards
-            if (deck.cards.length > 0) {
-                dealCardsToPlayer(deck.player);
-                dealCardsToBot(deck.bot);
-                UpdateInfoBox(); // Update game info display
+            var newCard = deck.cards.shift();
+            if (newCard) {
+                player.cards.push(newCard);
+                showCard(newCard);
             }
         }
+    }
+    ArrangeCards(player.cards, true);
+}
+
+function dealCardsToBot(bot) {
+    if (deck.cards.length > 0) {
+        for (var i = 0; i < 3; i++) {
+            if (deck.cards.length > 0) {
+                var newCard = deck.cards.shift();
+                if (newCard) {  // Check if newCard is not undefined
+                    bot.cards.push(newCard);
+                }
+            }
+        }
+        ArrangeCards(bot.cards, false);
+    }
+}
+
+function dealNewCardsIfNeeded() {
+    if (deck.player.cards.length === 0 && deck.bot.cards.length === 0) {
+        // Deal new cards if the deck still has cards
+        if (deck.cards.length > 0) {
+            dealCardsToPlayer(deck.player);
+            dealCardsToBot(deck.bot);
+            UpdateInfoBox(); // Update game info display
+        }
+    }
 }
 
 //-----------------------------------------
 
+function updateSumSelectedCards() {
+    sumSelectedCards = deck.table.cards
+      .filter(card => card.selected)
+      .reduce((sum, card) => sum + card.force, 0);
+    // Optionally, update the UI to show the sum of selected cards
+  }
