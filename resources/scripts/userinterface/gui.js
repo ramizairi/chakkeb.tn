@@ -31,8 +31,6 @@ function GuiInit() {
     gui === null || gui === void 0 ? void 0 : gui.appendChild(restartButton);
     gui === null || gui === void 0 ? void 0 : gui.appendChild(infoLabel);
 
-
-
 }
 function GetDeckCardsInfo() {
     if (deck.cards.length > 6) return "" + deck.cards.length / 6 + "  rounds left";
@@ -137,7 +135,7 @@ function CalculateScore(playereatedcards, boteatedcards) {
         pbermila = 1;
     }
     else if (bermila < 4) botscore = botscore + 1;
-    else if (bermila === 4) console.log("Bermila beji")
+    else if (bermila === 4) pbermila = 0;
     // 7aya
     for (var i = 0; i < playereatedcards.length; i++) {
         if (playereatedcards[i].force === 7) {
@@ -213,14 +211,14 @@ function updateScores() {
     document.getElementById("p-bermila").textContent = pbermila;
     document.getElementById("p-carta").textContent = playereatedcards.length;
     document.getElementById("p-dineri").textContent = dineri;
-    //document.getElementById("p-chkeyb").textContent = chkeyb;
+    document.getElementById("p-chkeyb").textContent = pchkeyb;
 
     // Update bot scores
     document.getElementById("b-haya").textContent = 1 - ehaya;
     document.getElementById("b-bermila").textContent = 1 - pbermila;
-    document.getElementById("b-carta").textContent = boteatedcards.length;
+    document.getElementById("b-carta").textContent = 40 - playereatedcards.length;
     document.getElementById("b-dineri").textContent = 10 - dineri;
-    //document.getElementById("b-chkeyb").textContent = chkeyb;
+    document.getElementById("b-chkeyb").textContent = bchkeyb;
 
     // Update totals
     document.getElementById("playerscore").textContent = playerscore;
@@ -236,3 +234,4 @@ function starnextround() {
     RestartRound();
 }
 //----------------------------------------------------
+

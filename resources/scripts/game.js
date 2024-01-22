@@ -50,6 +50,7 @@ function sortCards() {
         .sort(function (a, b) { return b.suit.type - a.suit.type || a.force - b.force; });
 }
 function start() {
+    audioPlayer.Play('background');
     openPopup();
     //console.log("Option selected:", targetScore);
     deck = new Deck();
@@ -270,7 +271,7 @@ function openPopup() {
 
 // Function to close the popup and start the game
 function startGame() {
-    // Get the value of the selected radio button
+    // Get the value of the selected radio buttons
     var selectedValue = document.querySelector('input[name="option"]:checked').value;
     targetScore = parseInt(selectedValue, 10);
     document.getElementById("popup-window").style.display = "none";
@@ -279,7 +280,7 @@ function startGame() {
 }
 function setOption(value) {
     // Your code to handle the option
-    //console.log("Option selected:", value);
+    console.log("Option selected:", value);
 }
 //--------------------------------------------------
 function startrestround() {
@@ -421,7 +422,11 @@ function BotAttack() {
         deck.table.cards.forEach((targetCard) => {
             if (canEatCard(cardToPlace, targetCard)) {
                 eatCard(cardToPlace, targetCard);
-
+                if (deck.table.cards.length === 0) {
+                    audioPlayer.Play('chkobba');
+                    bchkeyb = bchkeyb + 1;
+                    botscore = botscore + 1;
+                }
                 eatedcardsthisround.push(cardToPlace, targetCard);
                 //console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
                 canEat = true;
@@ -454,23 +459,6 @@ function eatCard(draggedCard, fromPlayer) {
         combination.forEach((card) => {
             removeCard(card, deck.table.cards);
             removeCardElement(card.id);
-
-            // Add to player's eaten cards if fromPlayer is true
-            if (fromPlayer) {
-                if (deck.table.cards === 0) {
-                    audioPlayer.Play('chkobba');
-                    pchkeyb = pchkeyb + 1;
-                    playerscore = playerscore + 1;
-                }
-            } else {
-                boteatedcards.push(card);
-                if (deck.table.cards === 0) {
-                    audioPlayer.Play('chkobba');
-                    bchkeyb = bchkeyb + 1;
-                    botscore = botscore + 1;
-                }
-                hideCard(card);
-            }
         });
 
         // Remove the played card from player's or bot's hand
@@ -482,6 +470,8 @@ function eatCard(draggedCard, fromPlayer) {
         } else {
             removeCard(draggedCard, deck.bot.cards);
             console.log("Bot eaten cards : ", playereatedcards)
+            boteatedcards.push(draggedCard);
+            boteatedcards.push(deck.bot.cards);
         }
     } else {
         // If no match, place the card on the table
@@ -606,7 +596,7 @@ function dealNewCardsIfNeeded() {
 
 function updateSumSelectedCards() {
     sumSelectedCards = deck.table.cards
-      .filter(card => card.selected)
-      .reduce((sum, card) => sum + card.force, 0);
+        .filter(card => card.selected)
+        .reduce((sum, card) => sum + card.force, 0);
     // Optionally, update the UI to show the sum of selected cards
-  }
+}

@@ -79,7 +79,7 @@ function handleTableCardSelection(item2) {
       }
     });
   }
-  if(sumtableselectedcard < 0) {
+  if (sumtableselectedcard < 0) {
     sumtableselectedcard = 0;
     deck.table.cards.forEach((card) => {
       var cardElement = document.getElementById("card" + card.id);
@@ -132,6 +132,12 @@ window.onmouseup = function () {
           //console.log("Total player eated cards : ", playereatedcards)
         }
       });
+      //Chkeyb
+      if (deck.table.cards.length === 0) {
+        audioPlayer.Play('chkobba');
+        pchkeyb = pchkeyb + 1;
+        playerscore = playerscore + 1;
+    }
 
       playerlasteat = true;
       playerTurn = false;
@@ -141,11 +147,12 @@ window.onmouseup = function () {
       timeoutBotAttack = setTimeout(() => {
         BotAttack();
       }, 1000);
-    } else {
+    } else { //Can't eat
       placeCardOnTable(draggedCard);
       sumtableselectedcard = 0;
       selectedTableCardIds = [];
       playerTurn = false;
+      //Remove the highlight ui
       deck.table.cards.forEach((card) => {
         var cardElement = document.getElementById("card" + card.id);
         if (cardElement) {
