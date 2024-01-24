@@ -1,5 +1,5 @@
 var carta = false;
-var bermila = 0;
+var bermila = 1;
 var pbermila = 0;
 var haya = false;
 var ehaya = 0;
@@ -52,6 +52,7 @@ function HideInfoBox() {
 }
 
 function DisplayWinner(player) {
+    updateScores();
     if (player === 'bot') {
         audioPlayer.Play('lose');
         var winner = document.createElement('div');
@@ -198,6 +199,8 @@ function closePopup() {
     haya = false;
     ehaya = 0;
     dineri = 0;
+    pchkeyb = 0;
+    bchkeyb = 0;
 }
 
 // Function to update scores
