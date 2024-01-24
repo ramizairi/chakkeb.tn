@@ -1,0 +1,16 @@
+body {
+    background-color: #6fa5fd;
+    background-repeat: repeat;
+    background-size:auto;
+  }
+
+h1, h2, h3 {
+    color: white;
+}
+p {
+    width: 200px;
+    color: black;
+}
+img {
+    width: 10%;
+}
