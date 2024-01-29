@@ -39,8 +39,12 @@ var AudioResources = [
     new AudioResource('lose', 0.35, './resources/sounds/cards-lose.mp3'),
     new AudioResource('alert', 0.06, './resources/sounds/cards-alert.mp3'),
     new AudioResource('chkobba', 0.5, './resources/sounds/cards-chkobba.mp3'),
+    new AudioResource('chkobba1', 0.5, './resources/sounds/cards-chkobba-1.mp3'),
     new AudioResource('elhaya', 0.5, './resources/sounds/cards-elhaya.mp3'),
-    new AudioResource('background', 0.1, './resources/sounds/background.mp3')
+    new AudioResource('mstensin', 0.5, './resources/sounds/cards-Mstensin-b-tmachkia.mp3'),
+    new AudioResource('mchlaaba', 0.5, './resources/sounds/cards-mch-hedhi-laaba.mp3'),
+    new AudioResource('mkomchmhasbia', 0.5, './resources/sounds/cards-mkomch-mhasbia.mp3'),
+    new AudioResource('background', 0.08, './resources/sounds/background.mp3')
 ];
 var AudioManager = /** @class */ (function () {
     function AudioManager() {

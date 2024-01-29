@@ -51,6 +51,7 @@ function sortCards() {
 }
 function start() {
     audioPlayer.Play('background');
+    audioPlayer.Play('mstensin');
     openPopup();
     //console.log("Option selected:", targetScore);
     deck = new Deck();
@@ -426,14 +427,28 @@ function BotAttack() {
                     audioPlayer.Play('chkobba');
                     bchkeyb = bchkeyb + 1;
                     botscore = botscore + 1;
+                    setTimeout(function () {
+                        audioPlayer.Play('mchlaaba');
+                      }, 3500);
                 }
-                eatedcardsthisround.push(cardToPlace, targetCard);
+                eatedcardsthisround.push(cardToPlace);
+                eatedcardsthisround.push(targetCard);
+
                 //console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
                 canEat = true;
-                boteatedcards.push(cardToPlace, targetCard);
+                boteatedcards.push(cardToPlace);
+                boteatedcards.push(targetCard);
+
                 playerlasteat = false;
             }
         });
+        for (var i = 0; i < eatedcardsthisround.length; i++) {
+            if (eatedcardsthisround[i].force === 7) {
+                if (eatedcardsthisround[i].suit.name === "diamond") {
+                    audioPlayer.Play('elhaya');
+                }
+            }
+        }
 
         if (!canEat) {
             placeCardOnTable(cardToPlace);

@@ -127,17 +127,37 @@ window.onmouseup = function () {
           eatCard(draggedCard, targetCard);
           eatedthisround.push(draggedCard);
           eatedthisround.push(targetCard);
-          playereatedcards.push(draggedCard, targetCard);
+
+          playereatedcards.push(draggedCard);
+          playereatedcards.push(targetCard);
           //onsole.log("Player Eated cards round ", round, "jaria ", deck.cards.length / 6, eatedthisround);
           //console.log("Total player eated cards : ", playereatedcards)
         }
       });
+      console.log("Player eated this round :", eatedthisround)
+      for (var i = 0; i < eatedthisround.length; i++) {
+        if (eatedthisround[i].force === 7) {
+          if (eatedthisround[i].suit.name === "diamond") {
+            audioPlayer.Play('mkomchmhasbia');
+            setTimeout(function() {
+              audioPlayer.Play('mchlaaba');
+            }, 3500);
+          }
+        }
+        var sbouaa = 0
+        if (eatedthisround[i].force === 7) {
+          sbouaa = sbouaa + 1;
+          if (sbouaa >= 2) {
+            audioPlayer.Play('mkomchmhasbia');
+          }
+        }
+      }
       //Chkeyb
       if (deck.table.cards.length === 0) {
         audioPlayer.Play('chkobba');
         pchkeyb = pchkeyb + 1;
         playerscore = playerscore + 1;
-    }
+      }
 
       playerlasteat = true;
       playerTurn = false;
