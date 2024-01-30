@@ -364,21 +364,6 @@ function startrestround() {
     }, 1400);
     game === null || game === void 0 ? void 0 : game.appendChild(gameDeck);
 }
-//------------------------------------
-/*
-function eatedcardmove(eatedcards) {
-    setTimeout(function () {
-        audioPlayer.Play('moving');
-        for (var _i = 0, _b = eatedcards ; _i < _b.length; _i++) {
-            var card = _b[_i];
-            console.log("eated cards : ",card)
-                var cardItem = document.getElementById("card".concat(card.id));
-                console.log(cardItem)
-                card[i].style.transform = "translate(560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
-                console.log("Eated nd moved")
-                //cardItem.style.transition = '0.4s ease-in-out';
-    }}, 1200 );
-}*/
 
 function arrangeBotEatedCardsToLeft(cardsArray) {
     audioPlayer.Play('moving');
@@ -447,6 +432,9 @@ function BotAttack() {
                 if (eatedcardsthisround[i].suit.name === "diamond") {
                     audioPlayer.Play('elhaya');
                 }
+                setTimeout(function() {
+                    audioPlayer.Play('mchlaaba');
+                  }, 3500);
             }
         }
 
@@ -466,8 +454,71 @@ function BotAttack() {
     playerTurn = true;
     UpdateInfoBox();
 }
+/* --> LOGIC 2
+function BotAttack1() {
+    var eatedcardsthisround = [];
+    //console.log("bot turn");
+    UpdateInfoBox();
+    if (deck.bot.cards.length > 0) {
+        audioPlayer.Play('placed');
+        var cardToPlace = deck.bot.cards[0];
+        var canEat = false;
+
+        for(var i = 0 ; i < deck.table.cards.length ; i++) {
+            if(cardToPlace.force === deck.table.cards[i].force) {
+                boteatedcards.push(cardToPlace);
+                boteatedcards.push(deck.table.cards[i]);
+                table.removeCardElement(deck.table.cards[i]);
+                for(var j = 0 ; j < deck.table.cards.length ; j++) {
+                    if(deck.table.cards[i].force + deck.table.cards[j].force === cardToPlace.force) {
+                        boteatedcards.push(cardToPlace);
+                        boteatedcards.push(deck.table.cards[i]);
+                        boteatedcards.push(deck.table.cards[j]);
+                        table.removeCardElement(deck.table.cards[i]);
+                        table.removeCardElement(deck.table.cards[j]);
+                    }
+                    for(var h = 0 ; h < deck.table.cards.length ; g++) {
+                        if(deck.table.cards[i].force + deck.table.cards[j].force + deck.table.cards[h].force === cardToPlace.force) {
+                            boteatedcards.push(cardToPlace);
+                            boteatedcards.push(deck.table.cards[i]);
+                            boteatedcards.push(deck.table.cards[j]);                            
+                            boteatedcards.push(deck.table.cards[h]);
+                            table.removeCardElement(deck.table.cards[i]);
+                            table.removeCardElement(deck.table.cards[j]);
+                            table.removeCardElement(deck.table.cards[h]);
+                        }
+                    }
+                }
+            }
+        }
+        for (var i = 0; i < eatedcardsthisround.length; i++) {
+            if (eatedcardsthisround[i].force === 7) {
+                if (eatedcardsthisround[i].suit.name === "diamond") {
+                    audioPlayer.Play('elhaya');
+                }
+                setTimeout(function() {
+                    audioPlayer.Play('mchlaaba');
+                  }, 3500);
+            }
+        }
+
+        if (!canEat) {
+            placeCardOnTable(cardToPlace);
+        }
+
+        deck.bot.RemoveCard(cardToPlace);
+        ArrangeCards(deck.bot.cards, false);
+        ArrangeTableCards(deck.table.cards);
 
 
+        // Update the display of the bot's eaten cards
+        
+    }
+
+    playerTurn = true;
+    UpdateInfoBox();
+}
+*/
 function eatCard(draggedCard, fromPlayer) {
     const combination = findCombination(draggedCard.force, deck.table.cards);
     if (combination && combination.length > 0) {
