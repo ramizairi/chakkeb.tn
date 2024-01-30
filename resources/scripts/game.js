@@ -285,6 +285,8 @@ function setOption(value) {
 }
 //--------------------------------------------------
 function startrestround() {
+    audioPlayer.Play('background');
+    audioPlayer.Play('mstensin');
     deck = new Deck();
     document.addEventListener('contextmenu', function (event) { return event.preventDefault(); });
     //console.log(deck.cards);
@@ -377,19 +379,17 @@ function eatedcardmove(eatedcards) {
                 //cardItem.style.transition = '0.4s ease-in-out';
     }}, 1200 );
 }*/
-/*
-function arrangeBotEatedCardsToLeft() {
-    boteatedcards.forEach((card, index) => {
-        var cardElement = document.getElementById("card".concat(card.id));
-        if (cardElement) {
-            // Existing logic
-        } else {
-            console.error(`Card element not found for card ID ${card.id}`);
-            // Handle the missing element case here
-        }
-    });
+
+function arrangeBotEatedCardsToLeft(cardsArray) {
+    audioPlayer.Play('moving');
+    for (var i = 0; i < cardsArray.length; i++) {
+        var card = cardsArray[i];
+        var cardItem = document.getElementById("card".concat(card.id));
+        cardItem.style.transform = "translate(-560%,".concat(-40 + ((10 - i / 2) > 0 ? (10 - i / 2) * -1 : 10 - i / 2), "%)");
+        cardItem.style.animationDelay = '';
+        cardItem.style.animationName = '';
+    }
 }
-*/
 
 /*
 function timeoutboteatedcards() {
@@ -433,7 +433,7 @@ function BotAttack() {
                 }
                 eatedcardsthisround.push(cardToPlace);
                 eatedcardsthisround.push(targetCard);
-
+                //arrangeBotEatedCardsToLeft(eatedcardsthisround);
                 //console.log("Bot Eated cards round ",round , "jaria ", deck.cards.length/6  ,eatedcardsthisround);
                 canEat = true;
                 boteatedcards.push(cardToPlace);
@@ -460,7 +460,7 @@ function BotAttack() {
 
 
         // Update the display of the bot's eaten cards
-        //arrangeBotEatedCardsToLeft();
+        
     }
 
     playerTurn = true;

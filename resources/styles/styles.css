@@ -1,7 +1,6 @@
 body {
-  background-color: #282b30;
   user-select: none;
-  background-image: url("../images/background.png");
+  background-image: url("../images/background.webp");
   background-repeat: repeat;
   background-size: cover;
   overflow: hidden;
@@ -26,7 +25,7 @@ body {
 }
 
 .card.red {
-  background-image: url("../images/redsuit.png");
+  background-image: url("../images/redsuit.webp");
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
@@ -35,7 +34,7 @@ body {
 }
 
 .card.black {
-  background-image: url("../images/blacksuit.png");
+  background-image: url("../images/blacksuit.webp");
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
@@ -44,19 +43,19 @@ body {
 }
 
 .card.red.diamond {
-  background-image: url("../images/cardsuit_diamond.png");
+  background-image: url("../images/cardsuit_diamond.webp");
 }
 
 .card.red.heart {
-  background-image: url("../images/cardsuit_heart.png");
+  background-image: url("../images/cardsuit_heart.webp");
 }
 
 .card.black.spade {
-  background-image: url("../images/cardsuit_spade.png");
+  background-image: url("../images/cardsuit_spade.webp");
 }
 
 .card.black.club {
-  background-image: url("../images/cardsuit_club.png");
+  background-image: url("../images/cardsuit_club.webp");
 }
 
 .card:before,
@@ -322,7 +321,7 @@ body {
 }
 
 .back-side {
-  background-image: url("../images/cardsuit.png");
+  background-image: url("../images/cardsuit.webp");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -574,7 +573,7 @@ button:hover .button-text {
   height: 576px;
   /* Height of the image */
   margin: 50px auto;
-  background: url('../images/SCORE.png') no-repeat center center;
+  background: url('../images/SCORE.webp') no-repeat center center;
   /* Path to your image */
   background-size: contain;
 }
