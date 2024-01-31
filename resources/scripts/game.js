@@ -414,7 +414,7 @@ function BotAttack() {
                     botscore = botscore + 1;
                     setTimeout(function () {
                         audioPlayer.Play('mchlaaba');
-                      }, 3500);
+                    }, 3500);
                 }
                 eatedcardsthisround.push(cardToPlace);
                 eatedcardsthisround.push(targetCard);
@@ -431,10 +431,11 @@ function BotAttack() {
             if (eatedcardsthisround[i].force === 7) {
                 if (eatedcardsthisround[i].suit.name === "diamond") {
                     audioPlayer.Play('elhaya');
+                    //texteffect();
                 }
-                setTimeout(function() {
+                setTimeout(function () {
                     audioPlayer.Play('mchlaaba');
-                  }, 3500);
+                }, 3500);
             }
         }
 
@@ -448,7 +449,7 @@ function BotAttack() {
 
 
         // Update the display of the bot's eaten cards
-        
+
     }
 
     playerTurn = true;
@@ -520,6 +521,7 @@ function BotAttack1() {
 }
 */
 function eatCard(draggedCard, fromPlayer) {
+
     const combination = findCombination(draggedCard.force, deck.table.cards);
     if (combination && combination.length > 0) {
         combination.forEach((card) => {
@@ -555,6 +557,12 @@ function findCombination(
     currentCombo = [],
     startIndex = 0
 ) {
+    /*
+    for (var i = 0; i < availableCards; i++) {
+        if (targetValue === availableCards[x]) {
+            return availableCards[x];
+        }
+    } */
     const currentSum = currentCombo.reduce((sum, card) => sum + card.force, 0);
 
     if (currentSum === targetValue) {

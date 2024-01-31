@@ -259,12 +259,12 @@ body {
   font-family: "e-Ukraine-B";
   color: white;
   font-size: 6vw;
-  animation: winneranim;
+  animation: strat;
   animation-duration: 1s;
   animation-timing-function: ease;
 }
 
-@keyframes winneranim {
+@keyframes start {
   from {
     transform: scale(0);
   }

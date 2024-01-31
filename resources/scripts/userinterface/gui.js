@@ -78,6 +78,13 @@ function DisplayWinner(player) {
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
     }
 }
+function texteffect() {
+    var winner = document.createElement('div');
+        winner.textContent = 'HAHAHA EL HAYYA';
+        winner.id = 'winner';
+        var game = document.getElementById('game');
+        game === null || game === void 0 ? void 0 : game.appendChild(winner);
+}
 
 
 

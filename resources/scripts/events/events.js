@@ -139,6 +139,7 @@ window.onmouseup = function () {
         if (eatedthisround[i].force === 7) {
           if (eatedthisround[i].suit.name === "diamond") {
             audioPlayer.Play('elhaya');
+            //texteffect();
             setTimeout(function() {
               audioPlayer.Play('mchlaaba');
             }, 3500);
