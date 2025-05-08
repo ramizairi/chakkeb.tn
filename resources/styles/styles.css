@@ -1,7 +1,6 @@
 body {
-  background-color: #282b30;
   user-select: none;
-  background-image: url("../images/background.png");
+  background-image: url("../images/background.webp");
   background-repeat: repeat;
   background-size: cover;
   overflow: hidden;
@@ -26,7 +25,7 @@ body {
 }
 
 .card.red {
-  background-image: url("../images/redsuit.png");
+  background-image: url("../images/redsuit.webp");
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
@@ -35,7 +34,7 @@ body {
 }
 
 .card.black {
-  background-image: url("../images/blacksuit.png");
+  background-image: url("../images/blacksuit.webp");
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-box-shadow: 0px 0px 33px -7px rgba(0, 0, 0, 0.31);
@@ -44,19 +43,19 @@ body {
 }
 
 .card.red.diamond {
-  background-image: url("../images/cardsuit_diamond.png");
+  background-image: url("../images/cardsuit_diamond.webp");
 }
 
 .card.red.heart {
-  background-image: url("../images/cardsuit_heart.png");
+  background-image: url("../images/cardsuit_heart.webp");
 }
 
 .card.black.spade {
-  background-image: url("../images/cardsuit_spade.png");
+  background-image: url("../images/cardsuit_spade.webp");
 }
 
 .card.black.club {
-  background-image: url("../images/cardsuit_club.png");
+  background-image: url("../images/cardsuit_club.webp");
 }
 
 .card:before,
@@ -136,6 +135,21 @@ body {
 }
 
 #btn-volume:hover {
+  cursor: pointer;
+  transform: scale(1);
+  transition: 0.2s ease;
+}
+
+#btn-bgvolume {
+  position: absolute;
+  top: -30rem;
+  left: -55rem;
+  transform: scale(1.5);
+  fill: white;
+  transition: 0.2s ease;
+}
+
+#btn-bgvolume:hover {
   cursor: pointer;
   transform: scale(1);
   transition: 0.2s ease;
@@ -245,21 +259,22 @@ body {
   font-family: "e-Ukraine-B";
   color: white;
   font-size: 6vw;
-  animation: winneranim;
+  animation: strat;
   animation-duration: 1s;
   animation-timing-function: ease;
 }
 
-@keyframes winneranim {
+@keyframes start {
   from {
     transform: scale(0);
   }
+
   to {
     transform: scale(1);
   }
 }
 
-#bot-action > svg {
+#bot-action>svg {
   position: absolute;
   fill: white;
   left: 99.5%;
@@ -306,16 +321,22 @@ body {
 }
 
 .back-side {
-  background-image: url("../images/cardsuit.png");
+  background-image: url("../images/cardsuit.webp");
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 .card.highlighted {
   border: 2px solid red;
+  box-shadow: 0 0 10px red;
 }
 
-/* Pop-Up Window Styling */
+.card.tablehighlighted {
+  border: 3px solid blue;
+  opacity: 0.6;
+}
+
+/* Start windows popup */
 .popup {
   display: none;
   position: fixed;
@@ -325,32 +346,107 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.8);
 }
-
 .popup-content {
   background-color: rgba(0, 0, 0, 0.7);
   margin: 15% auto;
   padding: 20px;
   border: 1px solid rgba(66, 249, 0, 0.4);
-  width: 50%;
+  width: 30%;
   font-size: large;
   color: white;
+  border-radius: 50px;
+  box-shadow: 0 0 10px green;
+  justify-content: space-around;
 }
 
-#start-game-btn {
-  margin-top: 15px;
-  padding: 10px 20px;
-  color: white;
-  background-color: transparent;
-  border: solid 1px #008407;
+button {
+  position: relative;
+  display: inline-block;
   cursor: pointer;
-  border-radius: 5px;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
 }
 
-#start-game-btn:hover {
-  background-color: #008407;
+button.learn-more {
+  width: 12rem;
+  height: auto;
+}
+
+button.learn-more .circle {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 3rem;
+  height: 3rem;
+  background: #089d00;
+  border-radius: 1.625rem;
+}
+
+button.learn-more .circle .icon {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background: #fff;
+}
+
+button.learn-more .circle .icon.arrow {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  left: 0.625rem;
+  width: 1.125rem;
+  height: 0.125rem;
+  background: none;
+}
+
+button.learn-more .circle .icon.arrow::before {
+  position: absolute;
+  content: "";
+  top: -0.29rem;
+  right: 0.0625rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-top: 0.125rem solid #fff;
+  border-right: 0.125rem solid #fff;
+  transform: rotate(45deg);
+}
+
+button.learn-more .button-text {
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0.75rem 0;
+  margin: 0 0 0 1.85rem;
+  color: #282936;
+  font-weight: 700;
+  line-height: 1.6;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+button:hover .circle {
+  width: 100%;
+}
+
+button:hover .circle .icon.arrow {
+  background: #fff;
+  transform: translate(1rem, 0);
+}
+
+button:hover .button-text {
+  color: #fff;
 }
 
 #popup {
@@ -363,3 +459,233 @@ body {
   padding: 20px;
   z-index: 1000;
 }
+
+.radiobuttons {
+  display: flex;
+}
+
+.radio-input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.radio-input {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 150px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.radio-input .input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0;
+}
+
+.radio-input .span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #323232;
+  border-radius: 10px;
+}
+
+.radio-input .span::before {
+  content: '21';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  border-radius: 8px;
+  background: #666666;
+  box-shadow: inset -6px -6px 12px #2c2c2c,
+    inset 6px 6px 12px #a0a0a0;
+  color: #323232;
+  font-weight: 700;
+  font-size: 17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input:checked~.span::before {
+  content: '11';
+  color: #ccc;
+  text-shadow: 1px 1px 0.5px rgba(0, 255, 0, 0.3);
+  ;
+  border-radius: 8px;
+  background: #666666;
+  box-shadow: inset 6px 6px 12px #2c2c2c,
+    inset -6px -6px 12px #a0a0a0;
+}
+
+.radio-input .span::after {
+  content: '';
+  height: 6px;
+  width: 6px;
+  border-radius: 100%;
+  background-color: red;
+  position: absolute;
+  top: calc(50% - 3px);
+  right: 20px;
+  box-shadow: 1px 1px 3px #9c0000,
+    -1px -1px 3px #ff0000;
+}
+
+.input:checked~.span::after {
+  background: #00ff00;
+  box-shadow: 1px 1px 3px #009c00,
+    -1px -1px 3px #00ff00;
+}
+
+
+/*Score pop up---------------------*/
+
+.s-popup {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+}
+
+.s-popup-content {
+  position: relative;
+  width: 446px;
+  /* Width of the image */
+  height: 576px;
+  /* Height of the image */
+  margin: 50px auto;
+  background: url('../images/SCORE.webp') no-repeat center center;
+  /* Path to your image */
+  background-size: contain;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 100px;
+  color: green;
+  cursor: pointer;
+  margin-right: 50px;
+}
+
+.close-btn:hover {
+  color: red;
+  transform: scale(0.8);
+  transition: 0.2s ease;
+}
+
+.score-display {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.score-item {
+  position: absolute;
+  color: white;
+  font-size: 35px;
+  font-family: "e-Ukraine-MakeOut";
+}
+
+.player-haya {
+  top: 33%;
+  left: 20%;
+  color: greenyellow;
+}
+
+.player-bermila {
+  top: 42.5%;
+  left: 20%;
+  color: greenyellow;
+}
+
+.player-carta {
+  top: 52%;
+  left: 20%;
+  color: greenyellow;
+}
+
+.player-dineri {
+  top: 62%;
+  left: 20%;
+  color: greenyellow;
+}
+
+.player-chkeyb {
+  top: 72%;
+  left: 20%;
+  color: greenyellow;
+}
+
+.player-total {
+  top: 86.5%;
+  left: 20%;
+  color: greenyellow;
+}
+
+.bot-haya {
+  top: 33%;
+  left: 78%;
+  color: rgb(255, 183, 183);
+}
+
+.bot-bermila {
+  top: 42.5%;
+  left: 78%;
+  color: rgb(255, 183, 183);
+}
+
+.bot-carta {
+  top: 52%;
+  left: 78%;
+  color: rgb(255, 183, 183);
+}
+
+.bot-dineri {
+  top: 62%;
+  left: 78%;
+  color: rgb(255, 183, 183);
+}
+
+.bot-chkeyb {
+  top: 72%;
+  left: 78%;
+  color: rgb(255, 183, 183);
+}
+
+.bot-total {
+  top: 86.5%;
+  left: 78%;
+  color: rgb(255, 183, 183);
+}
+
+
+#torh {
+  top: 8%;
+  left: 47%;
+  font-size: 50px;
+  color: aqua;
+}
+
+
+/*-------------------*/

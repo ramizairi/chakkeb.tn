@@ -25,10 +25,11 @@ function resetCardTransforms(cardsArray) {
 function clearAllTimeouts() {
     // List of timeouts to clear
     const timeouts = [
-        timeoutShuffle, timeoutTrumpCard, timeoutInitCards, 
+        timeoutShuffle, timeoutTrumpCard, timeoutInitCards,
         timeoutShowCards, timeoutHideCard, timeoutCenterCards,
         timeoutRestart, timeoutSmoothCenter, timeoutStrictSmooth, timeoutBotAttack,
-        timeoutdealnewcards, timeoutRestartRound, timeoutverify
+        timeoutdealnewcards, timeoutRestartRound, timeoutverify,
+        timeoutshowwinnerscore
     ];
 
     // Clear each timeout
@@ -38,9 +39,11 @@ function clearAllTimeouts() {
 }
 
 function Restart() {
+
     playerTurn = true;
     playerscore = 0;
     botscore = 0;
+    round = 1;
     HideInfoBox();
 
     resetCardTransforms(deck.table.cards);
@@ -56,9 +59,11 @@ function Restart() {
 }
 
 function StrictRestart() {
+
     playerTurn = true;
     playerscore = 0;
     botscore = 0;
+    round = 1;
     HideInfoBox();
     clearCardsAndContainer();
     clearAllTimeouts();
@@ -69,10 +74,9 @@ function StrictSmoothRestart() {
     playerTurn = true;
     playerscore = 0;
     botscore = 0;
+    round = 1;
     HideInfoBox();
     clearAllTimeouts();
-    toggleActionButton(false);
-    toggleBotsDecision(false, '...');
     deck.CardsToDeck();
     audioPlayer.Play('sweep');
     console.log(deck.cards.length, deck);

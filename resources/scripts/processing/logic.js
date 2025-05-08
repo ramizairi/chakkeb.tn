@@ -53,26 +53,11 @@ class Card {
     };
 };
 
-class Table {
-    constructor() {
-      this.cards = []
-    }
-    AddCard = function (card) {
-        if (!this.cards.includes(card)) {
-            this.cards.push(card);
-        }
-    };
-    RemoveCard = function (card) {
-        if (this.cards.includes(card)) {
-            this.cards.splice(this.cards.indexOf(card), 1);
-        }
-    };
-}
+
 
 class Deck {
     constructor() {
         this.cards = [];
-        this.lastCard = 1;
         this.player = new Player();
         this.table = new Table();
         this.bot = new Bot();
@@ -126,16 +111,23 @@ class Deck {
 
         ArrangeTableCards(this.table.cards);
     }
-
+// on start again
     CardsToDeck() {
         while (this.player.cards.length > 0) {
             const Card_1 = this.player.cards.pop();
+            hideCard(Card_1);
             this.cards.push(Card_1);
         }
 
         while (this.bot.cards.length > 0) {
             const Card_2 = this.bot.cards.pop();
             this.cards.push(Card_2);
+        }
+
+        while (this.table.cards.length > 0) {
+            const Card_3 = this.table.cards.pop();
+            hideCard(Card_3);
+            this.cards.push(Card_3);
         }
     }
 }
@@ -148,6 +140,23 @@ function shufflee() {
         cardItem.style.transform = "translate(0%, 0%) rotate(0deg)";
     }
 } 
+
+class Table {
+    constructor() {
+      this.cards = []
+    }
+    AddCard(card) {
+        if (!this.cards.includes(card)) {
+            this.cards.push(card);
+        }
+    }
+    RemoveCard(card) {
+        if (this.cards.includes(card)) {
+            this.cards.splice(this.cards.indexOf(card), 1);
+        }
+    }
+}
+
 class Player {
     constructor() {
       this.cards = []

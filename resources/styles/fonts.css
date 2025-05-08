@@ -22,3 +22,7 @@
     font-family: 'e-Ukraine-B';
     src: url('../e-Ukraine/e-Ukraine-Bold.otf');
 }
+@font-face {
+    font-family: 'e-Ukraine-MakeOut';
+    src: url('../e-Ukraine/e-Ukraine-MakeOut.otf');
+}

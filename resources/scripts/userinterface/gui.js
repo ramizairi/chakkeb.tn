@@ -1,3 +1,11 @@
+var carta = false;
+var bermila = 1;
+var pbermila = 0;
+var haya = false;
+var ehaya = 0;
+var dineri = 0;
+var pchkeyb = 0;
+var bchkeyb = 0;
 var playerscore = 0;
 var botscore = 0;
 var playerTurn = true;
@@ -19,61 +27,18 @@ function GuiInit() {
     restartButton.id = 'btn-restart';
     var infoLabel = document.createElement('div');
     infoLabel.id = 'btn-info';
-    var actionButton = document.createElement('div');
-    actionButton.textContent = '...';
-    actionButton.id = 'btn-action';
-    actionButton.classList.add('button');
     var gui = document.getElementById('gui');
     gui === null || gui === void 0 ? void 0 : gui.appendChild(restartButton);
     gui === null || gui === void 0 ? void 0 : gui.appendChild(infoLabel);
-    gui === null || gui === void 0 ? void 0 : gui.appendChild(actionButton);
 
-    for (var _i = 0, _e = deck.player.cards; _i < _e.length; _i++) {
-        var card = _e[_i];
-        var cardItem = document.getElementById("card".concat(card.id));
-
-        // Add click event listener for player cards
-        cardItem.addEventListener('click', function () {
-            toggleCardSelection(card, cardItem);
-        });
-    }
-    deck.player.cards.forEach(function (card) {
-        var cardItem = document.getElementById("card" + card.id);
-        cardItem.addEventListener('click', function () {
-            toggleCardSelection(card, cardItem);
-        });
-    }); 
-
-// Assuming this happens after the table cards are created and added to the DOM
-    deck.table.cards.forEach(function (card) {
-        var cardItem = document.getElementById("card" + card.id);
-        cardItem.addEventListener('click', function () {
-            handleCardFromTable(card, cardItem);
-        });
-    });
-
-    for (var _i = 0, _a = deck.table.cards; _i < _a.length; _i++) {
-        (function() {
-            var tableCard = _a[_i];
-            var tableCardItem = document.getElementById("card".concat(tableCard.id));
-
-            // Add direct logging in the event listener
-            tableCardItem.addEventListener('click', function (event) {
-                console.log('Click event triggered for card ID:', tableCard.id);
-                console.log('Card data:', tableCard);
-                handleCardFromTable(tableCard, tableCardItem);
-            });
-        })();
-    }
 }
 function GetDeckCardsInfo() {
-    if (deck.cards.length > 6) return "Mzelou " + deck.cards.length/6 +" Jariet" ;
-    else if(deck.cards.length = 6)  return "Mzelt Jaria";
-    else return "Ekher jaria !";
+    if (deck.cards.length > 6) return "" + deck.cards.length / 6 + "  rounds left";
+    else return "Last Round !";
 }
 function turnwho() {
-    if(playerTurn) return "Enti Tal3eb , ";
-    else if(!playerTurn) return "L bot yal3eb , ";
+    if (playerTurn) return "It's your turn , ";
+    else if (!playerTurn) return "It's bot's turn now , ";
     return '';
 }
 function UpdateInfoBox() {
@@ -87,10 +52,11 @@ function HideInfoBox() {
 }
 
 function DisplayWinner(player) {
+    updateScores();
     if (player === 'bot') {
         audioPlayer.Play('lose');
         var winner = document.createElement('div');
-        winner.textContent = '5SERT 😢';
+        winner.textContent = 'BOT WINS 😢';
         winner.id = 'winner';
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
@@ -98,7 +64,7 @@ function DisplayWinner(player) {
     else if (player === 'player') {
         audioPlayer.Play('win');
         var winner = document.createElement('div');
-        winner.textContent = 'MABROUK 😎';
+        winner.textContent = 'YOU WIN 😎';
         winner.id = 'winner';
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
@@ -106,52 +72,21 @@ function DisplayWinner(player) {
     else if (player === 'tie') {
         audioPlayer.Play('lose');
         var winner = document.createElement('div');
-        winner.textContent = 'TOR7 ✖️';
+        winner.textContent = 'TIE ✖️';
         winner.id = 'winner';
         var game = document.getElementById('game');
         game === null || game === void 0 ? void 0 : game.appendChild(winner);
     }
 }
-// restart
-function toggleActionButton(makeVisible) {
-    var actionbtn = document.getElementById('btn-action');
-    if (actionbtn !== null && makeVisible) {
-        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.add('visible');
-    }
-    else {
-        actionbtn === null || actionbtn === void 0 ? void 0 : actionbtn.classList.remove('visible');
-        actionbtn.textContent = '...';
-    }
+function texteffect() {
+    var winner = document.createElement('div');
+        winner.textContent = 'HAHAHA EL HAYYA';
+        winner.id = 'winner';
+        var game = document.getElementById('game');
+        game === null || game === void 0 ? void 0 : game.appendChild(winner);
 }
 
-function toggleBotsDecision(makeVisible, context) {
-    var botAction = document.getElementById('bot-action');
-    var botActionDecision = document.getElementById('bot-action-decision');
-    if (botAction !== null && botActionDecision !== null) {
-        if (makeVisible && (context !== null && context !== undefined)) {
-            botActionDecision.textContent = context;
-            if (!botAction.classList.contains('visible')) {
-                audioPlayer.Play('alert');
-            }
-            botAction.classList.add('visible');
-        }
-        else {
-            botActionDecision.textContent = '...';
-            botAction.classList.remove('visible');
-        }
-    }
-}
-//----------------------------------------------------------------------------------------
 
-function toggleCardSelection(card, cardItem) {
-    // Assuming 'selected' is a custom property you added to track selection
-    card.selected = !card.selected;
-    if (card.selected) {
-        cardItem.classList.add('selected'); // Highlight the card visually
-    } else {
-        cardItem.classList.remove('selected');
-    }
-}
 
 function handleCardFromTable(tableCard, tableCardItem) {
     // Find the selected player card
@@ -187,65 +122,126 @@ function removeCardElement(cardId) {
 
 //----------------------------------------------------------
 function CalculateScore(playereatedcards, boteatedcards) {
-    var carta = false;
-    var bermila = 0;
-    var haya = false;
-    var dineri = 0;
     // carta
     if (playereatedcards.length > boteatedcards.length) {
-      carta = true;
-      playerscore = playerscore+1;
+        carta = true;
+        playerscore = playerscore + 1;
     } else {
-      botscore = botscore+1;
+        botscore = botscore + 1;
     }
     // bermila
-    for( var i = 0 ; i < playereatedcards.length ; i++) {
-      if (playereatedcards[i].force === 7) {
-        bermila = bermila+1
-      }
-      if (playereatedcards[i].force === 6) {
-        bermila = bermila+1;
-      }
-    }
-    if (bermila > 4) playerscore = playerscore+1;
-    else if (bermila < 4) botscore = botscore+1;
-    else if (bermila === 4) console.log("Bermila beji")
-    // 7aya
-    for( var i = 0 ; i < playereatedcards.length ; i++) {
-      if(playereatedcards[i].force === 7) {
-        if(playereatedcards[i].suit.name === "diamond") {
-          haya = true;
+    for (var i = 0; i < playereatedcards.length; i++) {
+        if (playereatedcards[i].force === 7) {
+            bermila = bermila + 1;
         }
-      }
+        if(playereatedcards[i].force === 6) {
+            bermila = bermila + 1;
+        }
     }
-    if(haya) playerscore = playerscore+1;
-    else botscore = botscore+1;
+    if (bermila > 4) {
+        playerscore = playerscore + 1;
+        pbermila = 1;
+    }
+    else if (bermila < 4) botscore = botscore + 1;
+    else if (bermila === 4) pbermila = 0;
+    // 7aya
+    for (var i = 0; i < playereatedcards.length; i++) {
+        if (playereatedcards[i].force === 7) {
+            if (playereatedcards[i].suit.name === "diamond") {
+                haya = true;
+                ehaya = 1;
+            }
+        }
+    }
+    if (haya) playerscore = playerscore + 1;
+    else botscore = botscore + 1;
     //dineri
-    for( var i = 0 ; i < playereatedcards.length ; i++) {
-      if(playereatedcards[i].suit.name === 'diamond') {
-        dineri = dineri+1;
-      }
+    for (var i = 0; i < playereatedcards.length; i++) {
+        if (playereatedcards[i].suit.name === 'diamond') {
+            dineri = dineri + 1;
+        }
     }
-    if(dineri > 5) playerscore = playerscore+1;
-    else if (dineri < 5) botscore = botscore+1;
-  
-    if(playerscore >= targetScore || botscore >= targetScore) {
+    if (dineri > 5) playerscore = playerscore + 1;
+    else if (dineri < 5) botscore = botscore + 1;
+
+    if (playerscore >= targetScore || botscore >= targetScore) {
+        HideInfoBox();
         console.log(playerscore >= targetScore ? "Player wins!" : "Bot wins!");
         DisplayWinner(playerscore >= targetScore ? 'player' : 'bot');
+        showScorePopup();
     } else {
+        HideInfoBox();
+        updateScores();
+        showScorePopup();
         timeoutRestartRound = setTimeout(() => {
-        starnextround();
+            starnextround();
         }, 2500);
-        round = round+1;
-        console.log("Round number = ", round);
-        console.log("Player Score = ", playerscore);
-        console.log("Bot Score = ", botscore) // Function to restart the round
+        round = round + 1;
+        //console.log("Round number = ", round);
+        //console.log("Player Score = ", playerscore);
+        //console.log("Bot Score = ", botscore) // Function to restart the round
     }
-  }
- function starnextround() {
+}
+
+//-------------------------------
+
+function showScorePopup() {
+    document.getElementById("popup-score").style.display = "block";
+}
+
+function showPopup() {
+    const popup = document.getElementById("popup");
+    if (popup) {
+        popup.style.display = "visible";
+    }
+}
+
+function closePopup() {
+    document.getElementById("popup-score").style.display = "none";
+    playereatedcards = [];
+    boteatedcards = [];
+    carta = false;
+    bermila = 0;
+    pbermila = 0
+    haya = false;
+    ehaya = 0;
+    dineri = 0;
+    pchkeyb = 0;
+    bchkeyb = 0;
+}
+
+// Function to update scores
+function updateScores() {
+
+    // Update Round
+    document.getElementById("torh").textContent = round;
+
+    // Update player scores
+    document.getElementById("p-haya").textContent = ehaya;
+    document.getElementById("p-bermila").textContent = pbermila;
+    document.getElementById("p-carta").textContent = playereatedcards.length;
+    document.getElementById("p-dineri").textContent = dineri;
+    document.getElementById("p-chkeyb").textContent = pchkeyb;
+
+    // Update bot scores
+    document.getElementById("b-haya").textContent = 1 - ehaya;
+    document.getElementById("b-bermila").textContent = 1 - pbermila;
+    document.getElementById("b-carta").textContent = 40 - playereatedcards.length;
+    document.getElementById("b-dineri").textContent = 10 - dineri;
+    document.getElementById("b-chkeyb").textContent = bchkeyb;
+
+    // Update totals
+    document.getElementById("playerscore").textContent = playerscore;
+    document.getElementById("botscore").textContent = botscore;
+}
+
+
+//------------------------------
+function starnextround() {
     Resize();
     GuiInit();
     showPopup();
     RestartRound();
 }
-  //----------------------------------------------------
+//----------------------------------------------------
+
