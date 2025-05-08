@@ -27,7 +27,8 @@ function clearAllTimeouts() {
     const timeouts = [
         timeoutShuffle, timeoutTrumpCard, timeoutInitCards, 
         timeoutShowCards, timeoutHideCard, timeoutCenterCards,
-        timeoutRestart, timeoutSmoothCenter, timeoutStrictSmooth
+        timeoutRestart, timeoutSmoothCenter, timeoutStrictSmooth, timeoutBotAttack,
+        timeoutdealnewcards, timeoutRestartRound, timeoutverify
     ];
 
     // Clear each timeout

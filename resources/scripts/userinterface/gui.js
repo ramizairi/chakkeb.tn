@@ -233,15 +233,19 @@ function CalculateScore(playereatedcards, boteatedcards) {
         console.log(playerscore >= targetScore ? "Player wins!" : "Bot wins!");
         DisplayWinner(playerscore >= targetScore ? 'player' : 'bot');
     } else {
-        Resize();
-        GuiInit();
-        showPopup();
-        RestartRound();
-        
+        timeoutRestartRound = setTimeout(() => {
+        starnextround();
+        }, 2500);
         round = round+1;
         console.log("Round number = ", round);
         console.log("Player Score = ", playerscore);
         console.log("Bot Score = ", botscore) // Function to restart the round
     }
   }
+ function starnextround() {
+    Resize();
+    GuiInit();
+    showPopup();
+    RestartRound();
+}
   //----------------------------------------------------
